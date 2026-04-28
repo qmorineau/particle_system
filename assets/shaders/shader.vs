@@ -1,37 +1,15 @@
-#version 330 core
+#version 430 core
 layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aNormal;
-layout (location = 2) in vec2 aTexCoord;
-layout (location = 3) in vec3 aFaceColor;
+layout (location = 2) in vec3 aColor;
 
-out vec3 FragPos;     // world-space position for lighting
-out vec3 Normal;      // world-space normal for lighting
-flat out vec3 FaceColor;
-out vec2 TexCoords;
-
-out vec3 vObjectPos;  // <-- object-space position for tri-planar
-out vec3 vObjectNormal; // <-- object-space normal for tri-planar
-
-uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
+out vec3 frag_col;
+
 void main()
 {
-    // World-space position (for lighting)
-    vec4 worldPos = model * vec4(aPos, 1.0);
-    FragPos = worldPos.xyz;
-
-    // World-space normal (for lighting)
-    mat3 normalMatrix = mat3(transpose(inverse(model)));
-    Normal = normalize(normalMatrix * aNormal);
-
-    // Object-space data (for tri-planar)
-    vObjectPos = aPos;
-    vObjectNormal = normalize(aNormal);
-
-    FaceColor = aFaceColor;
-    TexCoords = aTexCoord;
-
-    gl_Position = projection * view * worldPos;
+    gl_Position = projection * view * vec4(aPos.xyz, 1.0);
+    gl_PointSize = 2.0;
+    frag_col = aColor;
 }

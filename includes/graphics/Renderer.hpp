@@ -17,7 +17,8 @@ class Renderer
 		void beginFrame();
 		void draw(Scene* scene);
 	private:
-		Shader			_shader;
+		Shader			_render;
+		Shader			_compute;
 };
 
 #endif

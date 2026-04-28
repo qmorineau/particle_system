@@ -15,6 +15,7 @@ class Shader
 {
 public:
     Shader(const char* vertexPath, const char* fragmentPath);
+	Shader(const char* computePath);
     // Activate Shader
     void use();
     // Utility Uniform Functions
@@ -30,7 +31,8 @@ private:
 	enum class Type
 	{
 		Vertex,
-		Fragment
+		Fragment,
+		Compute
 	};
     unsigned int _id;
 

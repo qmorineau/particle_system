@@ -23,6 +23,24 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	glDeleteShader(fragment);
 }
 
+Shader::Shader(const char* computePath)
+{
+	std::string computeCode = readShaderFile(computePath);
+
+	const char* cShaderCode = computeCode.c_str();
+
+	// Compile shader
+	unsigned int compute = createShader(&cShaderCode, Type::Compute);
+	checkCompileErrors(compute, "COMPUTE");
+	// Shader Program
+	_id = glCreateProgram();
+	glAttachShader(_id, compute);
+	glLinkProgram(_id);
+	checkCompileErrors(_id, "PROGRAM");
+	// Delete Shader, not need anymore
+	glDeleteShader(compute);
+}
+
 std::string Shader::readShaderFile(const char* file)
 {
 	std::string			shaderCode;
@@ -56,6 +74,9 @@ unsigned int Shader::createShader(const char** shaderCode, Shader::Type type)
 			break;
 		case Type::Fragment:
 			shaderId = glCreateShader(GL_FRAGMENT_SHADER);
+			break;
+		case Type::Compute:
+			shaderId = glCreateShader(GL_COMPUTE_SHADER);
 			break;
 	}
 	glShaderSource(shaderId, 1, shaderCode, NULL);
