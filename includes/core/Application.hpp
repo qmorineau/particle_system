@@ -9,7 +9,6 @@
 #include <GLFW/glfw3.h> 
 
 #include "InputManager.hpp"
-#include "ObjParser.hpp"
 #include "Renderer.hpp"
 #include "Window.hpp"
 #include "Scene.hpp"
@@ -17,26 +16,21 @@
 class Application
 {
 	public:
-		Application(char *file);
+		Application(char *args);
 		~Application();
 		void run();
 		void closeWindow() {_window.closeWindow();};
 
 		// getter
-		bool 			isLightEditor() {return _scene->isLightEditor();};
-		void			toggleLightEditor() {_scene->toggleLightEditor();};
 		float			getDelta() {return _deltaTime;};
-		LightManager&	lights() {return _scene->lights();};
 		Camera&			getCamera() {return _scene->camera();};
 		Renderer&		renderer() {return _renderer;};
 		Scene*			scene() {return _scene;};
 		InputManager&	inputManager() {return _inputManager;};
 		// setter
 		void 			setKey(int key, bool state) {_inputManager.setKey(key, state);};
-		void 			setColor(LightManager::ActiveColor c) {_scene->setColor(c);};
 
 	private:
-		ObjParser			_parser;
 		Window				_window;
 		InputManager		_inputManager;
 		Scene*				_scene;

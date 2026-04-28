@@ -9,7 +9,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "TextureLoader.hpp"
 #include "Matrix4.hpp"
 
 class Shader

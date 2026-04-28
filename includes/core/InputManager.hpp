@@ -28,29 +28,13 @@ class InputManager
 
 		// Handlers
 		void closeWindow(Application *);
-		void editRed(Application *);
-		void editGreen(Application *);
-		void editBlue(Application *);
-		void addLight(Application *);
-		void deleteLight(Application *);
-		void toggleLightMod(Application *);
-		void prevLight(Application *);
-		void nextLight(Application *);
-		void setPhong(Application *);
-		void setFace(Application *);
-		void setMaterial(Application *);
-		void applyTexture(Application *);
 		void rotateX(Application *);
 		void rotateY(Application *);
 		void rotateZ(Application *);
 		void resetCam(Application *);
-		void changeFaceRendering(Application *);
-		void changeMode(Application *);
 
 	private:
 		bool _keys[1024] = {false};
-		void lightEditor(LightManager& manager, float deltaTime);
-
 };
 
 #endif

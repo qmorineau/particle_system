@@ -1,6 +1,5 @@
 #include "Window.hpp"
 #include "Application.hpp"
-#include "LightManager.hpp"
 #include "InputManager.hpp"
 
 Window::Window(Application* app)
@@ -55,27 +54,7 @@ Window::~Window()
 
 void Window::manageTitle(Application& app)
 {
-	const LightManager& lights = app.lights();
-	if (app.isLightEditor())
-	{
-		switch (lights.getColor())
-		{
-			case LightManager::ActiveColor::Red:
-				_title = "Scop [Edit Light Mode][RED] ";
-				break;
-			case LightManager::ActiveColor::Green:
-				_title = "Scop [Edit Light Mode][GREEN] ";
-				break;
-			case LightManager::ActiveColor::Blue:
-				_title = "Scop [Edit Light Mode][BLUE] ";
-				break;
-			default:
-				_title = "Scop [Edit Light Mode] ";
-				break;
-		}
-	}
-	else
-		_title = "Scop ";
+	_title = "Particles System ";
 	float fps = 1.f / std::max(app.getDelta(), 0.0001f);
 	_title.append("[" + std::to_string(static_cast<int>(fps)) + " fps]");
 	glfwSetWindowTitle(_window, _title.c_str());

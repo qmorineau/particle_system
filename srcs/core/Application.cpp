@@ -1,11 +1,11 @@
 #include "Application.hpp"
 
-Application::Application(char *file) :
-	_parser(std::string(file)),
+Application::Application(char* args) :
 	_window(this),
 	_scene(nullptr)
 {
-	_scene = new Scene(_parser.getMeshes(), _parser.getPath());
+	(void) args;
+	_scene = new Scene();
 }
 		
 
