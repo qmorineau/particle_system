@@ -1,11 +1,18 @@
 #include "Application.hpp"
 
-Application::Application(char* args) :
+Application::Application(char* arg) :
 	_window(this),
-	_scene(nullptr)
+	_scene(nullptr),
+	_renderer()
 {
-	(void) args;
-	_scene = new Scene();
+	int particles = 1000000;
+	if (arg)
+	{
+		int tmp = std::atoi(arg);
+		if (tmp > 0)
+			particles = tmp;
+	}
+	_scene = new Scene(particles);
 }
 		
 

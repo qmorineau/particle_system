@@ -17,8 +17,9 @@ class Renderer
 		void beginFrame();
 		void draw(Scene* scene);
 	private:
-		Shader			_render;
-		Shader			_compute;
+		Shader	_render;
+		Shader	_update;
+		// Shader	_flocking;
 };
 
 #endif

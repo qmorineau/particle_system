@@ -3,10 +3,11 @@
 #include "Math.hpp"
 #include "Scene.hpp"
 #include "Camera.hpp"
+#include "ParticlesGPU.hpp"
 
 Renderer::Renderer() :
-	_render("assets/shaders/shader.vs", "assets/shaders/shader.fs"),
-	_compute("assets/shaders/shader.cs")
+	_render("assets/shaders/shaderRender.vs", "assets/shaders/shaderRender.fs"),
+	_update("assets/shaders/shaderUpdate.cs")
 {};
 
 Renderer::~Renderer() {};
@@ -35,5 +36,13 @@ void Renderer::draw(Scene* scene)
 		.mul_mat(mat4::rotateY(angle.y))
 		.mul_mat(mat4::rotateZ(angle.z));
     _render.setMat4("model", model);
+
+	// Compute Shader
+	const ParticlesGPU& particles = scene->particles();
+	particles.compute(_update);
+
+	// Draw
+	particles.bindVAO();
+	glDrawArrays(GL_POINTS, 0, scene->getParticles());
 }
 

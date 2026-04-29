@@ -11,10 +11,10 @@ struct Particle
 
 layout(std430, binding = 0) buffer Particles {Particle particles[];};
 
-uniform vec3 gravity_pos;
-uniform int	 gravity_on;
-uniform float delta_time;
-uniform unsigned long particles_nbr;
+uniform vec3	gravity_pos;
+uniform int		gravity_on;
+uniform float	delta_time;
+uniform int		particles_nbr;
 
 void main()
 {

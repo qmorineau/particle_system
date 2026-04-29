@@ -25,7 +25,6 @@ public:
 	void setMat4(const std::string &name, const mat4 &mat) const;
     void setVec3(const std::string &name, const vec3 &value) const;
     void setVec3(const std::string &name, float x, float y, float z) const;
-	void linkTexture(int i);
 
 private:
 	enum class Type

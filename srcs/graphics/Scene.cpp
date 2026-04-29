@@ -1,14 +1,22 @@
 #include "Scene.hpp"
+#include "ParticlesGPU.hpp"
 #include "Window.hpp"
 
-Scene::Scene() :
+Scene::Scene(unsigned int particles) :
+	_particlesGPU(nullptr),
+	_particles(particles),
 	_camera(SCR_WIDTH, SCR_HEIGHT)
 {
+	_particlesGPU = new ParticlesGPU(_particles);
 	_rotationsEnable = vec3(0., 1., 0.);
 	_rotations = vec3(0.01, 0.01, 0.01);
 }
 
-Scene::~Scene() {}
+Scene::~Scene()
+{
+	if (_particlesGPU)
+		delete _particlesGPU;
+}
 
 void Scene::update(float deltaTime)
 {

@@ -88,7 +88,7 @@ unsigned int Shader::createShader(const char** shaderCode, Shader::Type type)
 
 void Shader::use() 
 { 
-	glUseProgram(_id); 
+	glUseProgram(_id);
 }
 
 // Uniform Utility
@@ -123,11 +123,6 @@ void Shader::setVec3(const std::string &name, float x, float y, float z) const
 	glUniform3f(glGetUniformLocation(_id, name.c_str()), x, y, z); 
 }
 
-void Shader::linkTexture(int i)
-{
-	setInt("material_mapKd", i);
-}
-
 void Shader::checkCompileErrors(unsigned int shader, std::string type)
 {
 	int success;
@@ -138,7 +133,7 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type)
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			std::cerr << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
 		}
 	}
 	else
@@ -147,7 +142,7 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type)
 		if (!success)
 		{
 			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			std::cerr << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
 		}
 	}
 }
