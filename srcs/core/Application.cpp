@@ -5,7 +5,7 @@ Application::Application(char* arg) :
 	_scene(nullptr),
 	_renderer()
 {
-	int particles = 1000000;
+	int particles = 1000;
 	if (arg)
 	{
 		int tmp = std::atoi(arg);
@@ -44,7 +44,7 @@ void Application::renderLoop()
 		_scene->update(_deltaTime);
 
 		_renderer.beginFrame();
-		_renderer.draw(_scene);
+		_renderer.draw(_scene, _deltaTime);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

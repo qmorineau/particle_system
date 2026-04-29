@@ -1,11 +1,11 @@
 #version 430 core
-layout (location = 0) in vec3 aPos;
-layout (location = 2) in vec3 aColor;
+layout (location = 0) in vec4 aPos;
+layout (location = 2) in vec4 aColor;
 
 uniform mat4 view;
 uniform mat4 projection;
 
-out vec3 frag_col;
+out vec4 frag_col;
 
 void main()
 {

@@ -11,9 +11,9 @@ class ParticlesGPU
 	public:
 		struct Particle
 		{
-			vec3 position;
-			vec3 velocity;
-			vec3 color;
+			vec4 position;
+			vec4 velocity;
+			vec4 color;
 		};
 		ParticlesGPU(unsigned long);
 		~ParticlesGPU();

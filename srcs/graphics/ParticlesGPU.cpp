@@ -27,12 +27,13 @@ void ParticlesGPU::createVAO()
 void ParticlesGPU::createSSBO()
 {
     glGenBuffers(1, &_ssbo);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, _ssbo);
 	
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, _ssbo);
 	GLsizei stride = sizeof(Particle);
-
 	glBufferData(GL_SHADER_STORAGE_BUFFER, _particles * stride, NULL, GL_DYNAMIC_COPY);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, _ssbo);
+
+	glBindBuffer(GL_ARRAY_BUFFER, _ssbo);
 }
 
 void ParticlesGPU::compute(Shader& shader) const
@@ -48,7 +49,7 @@ void ParticlesGPU::compute(Shader& shader) const
 	GLuint num_group_z = 1;
 	glDispatchCompute(num_group_x, num_group_y, num_group_z);
 	
-	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT); // be sure that compute shader have finish writing before continue
+	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT); // be sure that compute shader have finish writing before continue
 }
 
 void ParticlesGPU::bindVAO() const

@@ -1,7 +1,7 @@
 #version 430 core
 
-in vec3 frag_col;
-out vec3 out_col;
+in vec4 frag_col;
+out vec4 out_col;
 
 void main()
 {

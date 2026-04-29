@@ -7,19 +7,36 @@
 
 Renderer::Renderer() :
 	_render("assets/shaders/shaderRender.vs", "assets/shaders/shaderRender.fs"),
-	_update("assets/shaders/shaderUpdate.cs")
+	_update("assets/shaders/shaderUpdate.cs"),
+	_flocking("assets/shaders/shaderFlocking.cs")
 {};
 
 Renderer::~Renderer() {};
 
 void Renderer::beginFrame()
 {
-	glClearColor(0.2f, 0.2f, 0.2f, 1.f);
+	glClearColor(0.f, 0.f, 0.f, 0.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::draw(Scene* scene)
+void Renderer::draw(Scene* scene, float deltaTime)
 {
+	const ParticlesGPU& particles = scene->particles();
+
+	// _update.use();
+	// _update.setBool("gravity_on", false);
+	// _update.setVec3("gravity_pos", vec3(0, 0, 0));
+	// _update.setFloat("delta_time", deltaTime);
+	// _update.setInt("particles_nbr", scene->getParticles());
+	// particles.compute(_update);
+	
+	// Compute Shader
+	_flocking.use();
+	_flocking.setInt("particles_nbr", scene->getParticles());
+	_flocking.setFloat("delta_time", deltaTime);
+	_flocking.setFloat("sphereRadius", 20.0f); // taille de la sphère
+	particles.compute(_flocking);
+
 	// Use shader
     _render.use();
 
@@ -29,17 +46,6 @@ void Renderer::draw(Scene* scene)
     _render.setMat4("projection", projection);
     _render.setMat4("view", camera.getViewMatrix());
 	_render.setVec3("viewPos", vec3(camera.getPosition()));
-
-	// Model
-	const vec3 angle = scene->getRotAngle();
-	mat4 model = mat4::rotateX(angle.x)
-		.mul_mat(mat4::rotateY(angle.y))
-		.mul_mat(mat4::rotateZ(angle.z));
-    _render.setMat4("model", model);
-
-	// Compute Shader
-	const ParticlesGPU& particles = scene->particles();
-	particles.compute(_update);
 
 	// Draw
 	particles.bindVAO();
