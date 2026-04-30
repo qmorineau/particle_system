@@ -35,23 +35,21 @@ void Application::renderLoop()
 	int i = 0;
 	while (!glfwWindowShouldClose(_window.getWindow()))
 	{
-		if (_mouseMoved)
-		{
-			_scene->camera().onMouseMove(_mouseX, _mouseY);
+		// Mouse
+		if (_inputContext.mouseMoved)
+			_inputHandler.handleMouseMove(this);
+		if (_inputContext.mouseScrolled)
+			_inputHandler.handleMouseScroll(this);
 
-		}
-		if (_mouseScrolled)
-		{
-			_scene->camera().onMouseScroll(_mouseOffsetX, _mouseOffsetY);
-		}
-
+		// Frame / Delta
 		float currentFrame = static_cast<float>(glfwGetTime());
 		_deltaTime = currentFrame - _lastFrame;
 		_lastFrame = currentFrame;
 
+		
 		_window.manageTitle(*this);
 		glfwSetKeyCallback(_window.getWindow(), InputManager::keyCallback);
-		_inputManager.handleKeys(this);
+		_inputHandler.handleKeys(this);
 		_scene->update(_deltaTime);
 
 		if (!i && ++i)
@@ -61,9 +59,20 @@ void Application::renderLoop()
 		_renderer.beginFrame();
 		_renderer.draw(_scene);
 
+		endFrame();
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(_window.getWindow());
         glfwPollEvents();
 	}
+}
+
+void Application::endFrame()
+{
+    auto& ctx = _inputContext;
+    ctx.mouseMoved = false;
+    ctx.mouseScrolled = false;
+    ctx.mouseOffsetX = 0;
+    ctx.mouseOffsetY = 0;
 }

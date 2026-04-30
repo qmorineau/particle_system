@@ -19,13 +19,13 @@ void Simulation::simulate(const ParticlesGPU& particles, int particlesNbr, float
 		_emitter.setInt("particles_nbr", particlesNbr);
 		_emitter.setFloat("delta_time", deltaTime);
 		_emitter.setVec3("emitter_pos", vec3(0, 0, 0));
-		_emitter.setFloat("life_span", 10.f);
+		_emitter.setFloat("life_span", 1000.f);
 		particles.compute(_emitter);
 	}
 	_update.use();
 	_update.setFloat("delta_time", deltaTime);
 	_update.setInt("particles_nbr", particlesNbr);
-	_update.setBool("gravity_on", true);
+	_update.setBool("gravity_on", false);
 	_update.setVec3("gravity_pos", vec3());
 	particles.compute(_update);
 };
