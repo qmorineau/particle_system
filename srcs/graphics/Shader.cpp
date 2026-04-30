@@ -86,7 +86,7 @@ unsigned int Shader::createShader(const char** shaderCode, Shader::Type type)
 
 // Activate Shader
 
-void Shader::use() 
+void Shader::use() const
 { 
 	glUseProgram(_id);
 }

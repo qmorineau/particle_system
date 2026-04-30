@@ -15,11 +15,9 @@ class Renderer
 		~Renderer();
 
 		void beginFrame();
-		void draw(Scene* scene, float deltaTime);
+		void draw(Scene* scene);
 	private:
 		Shader	_render;
-		Shader	_update;
-		Shader	_flocking;
 };
 
 #endif

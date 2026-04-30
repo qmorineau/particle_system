@@ -6,9 +6,7 @@
 #include "ParticlesGPU.hpp"
 
 Renderer::Renderer() :
-	_render("assets/shaders/shaderRender.vs", "assets/shaders/shaderRender.fs"),
-	_update("assets/shaders/shaderUpdate.cs"),
-	_flocking("assets/shaders/shaderFlocking.cs")
+	_render("assets/shaders/render/particle.vert", "assets/shaders/render/particle.frag")
 {};
 
 Renderer::~Renderer() {};
@@ -19,9 +17,9 @@ void Renderer::beginFrame()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::draw(Scene* scene, float deltaTime)
+void Renderer::draw(Scene* scene)
 {
-	const ParticlesGPU& particles = scene->particles();
+	// const ParticlesGPU& particles = scene->particles();
 
 	// _update.use();
 	// _update.setBool("gravity_on", false);
@@ -31,11 +29,11 @@ void Renderer::draw(Scene* scene, float deltaTime)
 	// particles.compute(_update);
 	
 	// Compute Shader
-	_flocking.use();
-	_flocking.setInt("particles_nbr", scene->getParticles());
-	_flocking.setFloat("delta_time", deltaTime);
-	_flocking.setFloat("sphereRadius", 20.0f); // taille de la sphère
-	particles.compute(_flocking);
+	// _flocking.use();
+	// _flocking.setInt("particles_nbr", scene->getParticles());
+	// _flocking.setFloat("delta_time", deltaTime);
+	// _flocking.setFloat("sphereRadius", 20.0f); // taille de la sphère
+	// particles.compute(_flocking);
 
 	// Use shader
     _render.use();
@@ -48,7 +46,7 @@ void Renderer::draw(Scene* scene, float deltaTime)
 	_render.setVec3("viewPos", vec3(camera.getPosition()));
 
 	// Draw
-	particles.bindVAO();
+	scene->particles().bindVAO();
 	glDrawArrays(GL_POINTS, 0, scene->getParticles());
 }
 

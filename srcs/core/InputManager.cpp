@@ -27,7 +27,7 @@ const std::unordered_map<int, InputManager::Handler> InputManager::handlers =
 	{GLFW_KEY_R, &InputManager::resetCam}
 };
 
-void InputManager::closeWindow(Application* app)			{app->closeWindow();}
+void InputManager::closeWindow(Application* app)	{app->closeWindow();}
 void InputManager::rotateX(Application* app)		{app->scene()->rotateX();}
 void InputManager::rotateY(Application* app)		{app->scene()->rotateY();}
 void InputManager::rotateZ(Application* app)		{app->scene()->rotateZ();}
@@ -39,18 +39,20 @@ void InputManager::resetCam(Application* app)
 
 // Callbacks
 
-void InputManager::mouseCallback(GLFWwindow* window, double xposIn, double yposIn)
+
+
+void InputManager::mouseCallback(GLFWwindow* window, double xposIn, double yposIn) 
 {
 	Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
 	if (app)
-	    app->getCamera().onMouseMove(xposIn, yposIn);
+		app->setMousePosition(xposIn, yposIn);
 }
 
 void InputManager::scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
 	if (app)
-		app->getCamera().onMouseScroll(xoffset, yoffset);
+		app->setMouseScroll(xoffset, yoffset);
 }
 
 void InputManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)

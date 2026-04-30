@@ -18,7 +18,7 @@ class ParticlesGPU
 		ParticlesGPU(unsigned long);
 		~ParticlesGPU();
 
-		void compute(Shader&) const;
+		void compute(const Shader&) const;
 		void bindVAO() const;
 
 	private:

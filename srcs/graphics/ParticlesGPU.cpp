@@ -36,7 +36,7 @@ void ParticlesGPU::createSSBO()
 	glBindBuffer(GL_ARRAY_BUFFER, _ssbo);
 }
 
-void ParticlesGPU::compute(Shader& shader) const
+void ParticlesGPU::compute(const Shader& shader) const
 {
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, _ssbo);
 	

@@ -5,7 +5,7 @@ Application::Application(char* arg) :
 	_scene(nullptr),
 	_renderer()
 {
-	int particles = 1000;
+	int particles = 1000000;
 	if (arg)
 	{
 		int tmp = std::atoi(arg);
@@ -34,6 +34,16 @@ void Application::renderLoop()
 
 	while (!glfwWindowShouldClose(_window.getWindow()))
 	{
+		if (_mouseMoved)
+		{
+			_scene->camera().onMouseMove(_mouseX, _mouseY);
+
+		}
+		if (_mouseScrolled)
+		{
+			_scene->camera().onMouseScroll(_mouseOffsetX, _mouseOffsetY);
+		}
+
 		float currentFrame = static_cast<float>(glfwGetTime());
 		_deltaTime = currentFrame - _lastFrame;
 		_lastFrame = currentFrame;
@@ -43,8 +53,11 @@ void Application::renderLoop()
 		_inputManager.handleKeys(this);
 		_scene->update(_deltaTime);
 
+		_simulation.setShape(_scene->particles(), _scene->getParticles(), Simulation::Shape::Sphere);
+		_simulation.simulate(_scene->particles(), _scene->getParticles(), _deltaTime);
+		
 		_renderer.beginFrame();
-		_renderer.draw(_scene, _deltaTime);
+		_renderer.draw(_scene);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

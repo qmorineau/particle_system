@@ -34,7 +34,7 @@ class InputManager
 		void resetCam(Application *);
 
 	private:
-		bool _keys[1024] = {false};
+		bool 		_keys[1024] = {false};
 };
 
 #endif
