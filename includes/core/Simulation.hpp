@@ -21,7 +21,7 @@ class Simulation
 	private:
 		Shader	_update;
 		Shader	_shape;
-		// Shader	_gravity;
+		Shader	_emitter;
 };
 
 #endif

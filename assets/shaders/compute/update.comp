@@ -7,12 +7,36 @@ struct Particle
     vec4 pos;
     vec4 vel;
     vec4 col;
+	float lifeTime;
+	float timeToDeath;
+	int isDead;
 };
 
 layout(std430, binding = 0) buffer Particles { Particle particles[]; };
 
 uniform float delta_time;
 uniform int   particles_nbr;
+uniform int   gravity_on;
+uniform vec3  gravity_pos;
+
+
+vec3 calculate_velocity(uint i)
+{
+	vec3 vel = particles[i].vel.xyz;
+
+	if (gravity_on == 1)
+	{
+		vec3 dir = gravity_pos.xyz - particles[i].pos.xyz;
+		float dist = length(dir);
+		vec3 normal_dir = normalize(dir);
+
+		float G = 3;
+		float force = G / (dist * dist + 0.001);
+		
+		vel += dir * force * delta_time;
+	}
+	return vel;
+}
 
 void main()
 {
@@ -20,12 +44,7 @@ void main()
 	if (i >= particles_nbr)
 		return;
 
-	vec3 pos = particles[i].pos.xyz;
-    vec3 vel = particles[i].vel.xyz;
+	particles[i].vel.xyz = calculate_velocity(i);
 
-	pos += vel * delta_time;
-
-    // Écriture
-    particles[i].pos.xyz = pos;
-    particles[i].vel.xyz = vel;
+	particles[i].pos += particles[i].vel * delta_time;
 }

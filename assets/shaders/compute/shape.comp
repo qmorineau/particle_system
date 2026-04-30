@@ -7,6 +7,9 @@ struct Particle
     vec4 pos;
     vec4 vel;
     vec4 col;
+	float lifeTime;
+	float timeToDeath;
+	int isDead;
 };
 
 layout(std430, binding = 0) buffer Particles { Particle particles[]; };
@@ -57,7 +60,8 @@ void main()
 
 			particles[i].pos = vec4(p, 1.0);
 		}
+		particles[i].lifeTime = 10.0;
     }
 	particles[i].vel = vec4(0.0);
-	particles[i].col = vec4(1.0);
+	particles[i].col = vec4(1, 1, 1, 1);
 }
