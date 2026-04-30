@@ -5,11 +5,12 @@
 
 namespace Commands
 {
+	// Window
 	class CloseWindow : public ICommand
 	{
 		void execute(Application* app) const override;
 	};
-
+	// Mouse
 	class MouseMove : public ICommand
 	{
 		void execute(Application* app) const override;
@@ -20,6 +21,11 @@ namespace Commands
 		void execute(Application* app) const override;
 	};
 
+	class ToggleMouse : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
+	// Camera
 	class CameraForward : public ICommand
 	{
 		void execute(Application* app) const override;
@@ -36,6 +42,20 @@ namespace Commands
 	};
 
 	class CameraRight : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
+	// Shape
+	class SetCubeShape : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
+	class SetSphereShape : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
+	// Simulation
+	class ToggleGravity : public ICommand
 	{
 		void execute(Application* app) const override;
 	};

@@ -5,7 +5,7 @@ Application::Application(char* arg) :
 	_scene(nullptr),
 	_renderer()
 {
-	int particles = 3000000;
+	int particles = 1000000;
 	if (arg)
 	{
 		int tmp = std::atoi(arg);
@@ -32,7 +32,7 @@ void Application::renderLoop()
 	// glfwSwapInterval(0); // disable vsync
 	glfwSwapInterval(1); // cap framerate to monitor framerate
 
-	int i = 0;
+	setShape(Simulation::Shape::Sphere);
 	while (!glfwWindowShouldClose(_window.getWindow()))
 	{
 		// Mouse
@@ -52,9 +52,7 @@ void Application::renderLoop()
 		_inputHandler.handleKeys(this);
 		_scene->update(_deltaTime);
 
-		if (!i && ++i)
-			_simulation.setShape(_scene->particles(), _scene->getParticles(), Simulation::Shape::Cube);
-		_simulation.simulate(_scene->particles(), _scene->getParticles(), _deltaTime);
+		_simulation.simulate(*_scene, _deltaTime);
 		
 		_renderer.beginFrame();
 		_renderer.draw(_scene);
@@ -75,4 +73,9 @@ void Application::endFrame()
     ctx.mouseScrolled = false;
     ctx.mouseOffsetX = 0;
     ctx.mouseOffsetY = 0;
+}
+
+void Application::setShape(Simulation::Shape shape)
+{
+	_simulation.setShape(*_scene, shape);
 }

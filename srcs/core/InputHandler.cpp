@@ -8,6 +8,10 @@ InputHandler::InputHandler()
 	_eventCommand[CMD_MOUSE_MOVE] = std::make_unique<Commands::MouseMove>();
 	_eventCommand[CMD_MOUSE_SCROLL] = std::make_unique<Commands::MouseScroll>();
 	_eventCommand[GLFW_KEY_ESCAPE] = std::make_unique<Commands::CloseWindow>();
+	_eventCommand[GLFW_KEY_M] = std::make_unique<Commands::ToggleMouse>();
+	_eventCommand[GLFW_KEY_G] = std::make_unique<Commands::ToggleGravity>();
+	_eventCommand[GLFW_KEY_1] = std::make_unique<Commands::SetCubeShape>();
+	_eventCommand[GLFW_KEY_2] = std::make_unique<Commands::SetSphereShape>();
 	// Repeat Key
 	_continuousCommand[GLFW_KEY_W] = std::make_unique<Commands::CameraForward>();
 	_continuousCommand[GLFW_KEY_S] = std::make_unique<Commands::CameraBackward>();
@@ -32,7 +36,8 @@ void InputHandler::handleKeysCallback(Application* app, int key)
 
 void InputHandler::handleMouseMove(Application* app)
 {
-	executeID(app, CMD_MOUSE_MOVE);
+	if (!app->window().getMouse())
+		executeID(app, CMD_MOUSE_MOVE);
 }
 
 void InputHandler::handleMouseScroll(Application* app)

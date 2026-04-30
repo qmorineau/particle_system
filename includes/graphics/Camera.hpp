@@ -9,7 +9,7 @@
 
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
 
-const vec3 defaultPosition(0.0f, 0.0f, 4.0f);
+const vec3 defaultPosition(0.0f, 0.0f, 50.0f);
 const float defaultZoom = 45.0f;
 
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
@@ -62,7 +62,7 @@ class Camera
 		float 		_yaw;
 		float 		_pitch;
 		// camera options
-		const float _movementSpeed = 2.5f;
+		const float _movementSpeed = 25.f;
 		const float _mouseSensitivity = 0.1f;
 		float 		_zoom = defaultZoom;
 		float 		_aspectRatio;

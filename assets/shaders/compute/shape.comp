@@ -34,34 +34,33 @@ void main()
 	if (i >= particles_nbr)
 		return;
 
-	if (particles[i].pos.w == 0.0)
-    {
-        // Génération pseudo-aléatoire basée sur l'indice i
-        float rx = hash(i * 123u);
-        float ry = hash(i * 456u);
-        float rz = hash(i * 789u);
+	// Génération pseudo-aléatoire basée sur l'indice i
+	float rx = hash(i * 123u);
+	float ry = hash(i * 456u);
+	float rz = hash(i * 789u);
 
-		if (is_cube == 1 || is_sphere == 1)
-		{
-			float size = 2.0;
-			float half_size = size / 2;
-			// Position dans un cube [-1, 1]
-			particles[i].pos = vec4(rx * size - half_size,
-									ry * size - half_size,
-									rz * size - half_size,
-									1.0);
-		}
-		if (is_sphere == 1)
-		{
-			vec3 p = vec3(particles[i].pos.x,
-						particles[i].pos.y,
-						particles[i].pos.z);
-			p = normalize(p);
+	float size = 10.0;
+	if (is_cube == 1 || is_sphere == 1)
+	{
+		float half_size = size / 2;
+		// Position dans un cube [-1, 1]
+		particles[i].pos = vec4(rx * size - half_size,
+								ry * size - half_size,
+								rz * size - half_size,
+								1.0);
+	}
+	if (is_sphere == 1)
+	{
+		vec3 p = vec3(particles[i].pos.x,
+					particles[i].pos.y,
+					particles[i].pos.z);
+		p = normalize(p);
+		p *= size;	
 
-			particles[i].pos = vec4(p, 1.0);
-		}
-		particles[i].lifeTime = 10.0;
-    }
-	particles[i].vel = vec4(0.0);
+		particles[i].pos = vec4(p, 1.0);
+	}
+	particles[i].timeToDeath = 10.0 * hash(uint(i) + 999u);
+
+	particles[i].vel = vec4(0.0, 0.0, 0.0, 1.0);
 	particles[i].col = vec4(1, 1, 1, 1);
 }

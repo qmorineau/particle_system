@@ -3,6 +3,7 @@
 
 #include "Shader.hpp"
 
+class Scene;
 class ParticlesGPU;
 
 class Simulation
@@ -16,8 +17,8 @@ class Simulation
 		Simulation();
 		~Simulation();
 
-		void simulate(const ParticlesGPU& particles, int particlesNbr, float deltaTime) const;
-		void setShape(const ParticlesGPU& particles, int particlesNbr, Shape shape) const;
+		void simulate(const Scene& scene, float deltaTime) const;
+		void setShape(const Scene& scene, Shape shape) const;
 	private:
 		Shader	_update;
 		Shader	_shape;

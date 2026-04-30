@@ -35,19 +35,19 @@ void main()
 	if (i >= particles_nbr)
 		return;
 
-	particles[i].lifeTime -= delta_time;
-	if (particles[i].lifeTime <= 0)
+	particles[i].timeToDeath -= delta_time;
+	if (particles[i].timeToDeath <= 0)
 		particles[i].isDead = 1;
 
 	if (particles[i].isDead == 1)
 	{
 		particles[i].isDead = 0;
 		particles[i].lifeTime = life_span;
+		particles[i].timeToDeath = life_span;
 		particles[i].pos.xyz = emitter_pos.xyz;
 		float rx = hash(i * 123u) * 2.0 - 1;
         float ry = hash(i * 456u) * 2.0 - 1;
         float rz = hash(i * 789u) * 2.0 - 1;
-		// particles[i].vel.xyz = normalize(vec3(rx, ry, rz));
-		particles[i].vel.xyz = vec3(1, 1, 1);
+		particles[i].vel.xyz = normalize(vec3(rx, ry, rz));
 	}
 }

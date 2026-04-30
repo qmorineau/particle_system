@@ -72,3 +72,12 @@ void Window::closeWindow()
 {
 	glfwSetWindowShouldClose(_window, true);
 };
+
+void Window::toggleMouse()
+{
+	_isMouse = !_isMouse;
+	if (_isMouse)
+		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	else
+		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}

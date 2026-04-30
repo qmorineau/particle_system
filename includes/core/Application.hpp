@@ -22,17 +22,17 @@ class Application
 		Application(char *args);
 		~Application();
 		void run();
-		void closeWindow() {_window.closeWindow();};
+		void setShape(Simulation::Shape shape);
 		
 		// getter
 		float			getDelta() 		{return _deltaTime;};
 		Camera&			getCamera()		{return _scene->camera();};
 		Renderer&		renderer() 		{return _renderer;};
 		Scene*			scene() 		{return _scene;};
+		Window&			window()		{return _window;};
 		InputManager&	inputManager()	{return _inputManager;};
 		InputHandler&	inputHandler()	{return _inputHandler;};
 		InputContext&	inputContext()	{return _inputContext;};
-
 	private:
 		Window				_window;
 		InputManager		_inputManager;
