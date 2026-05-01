@@ -50,6 +50,17 @@ void Application::renderLoop()
 		_window.manageTitle(*this);
 		glfwSetKeyCallback(_window.getWindow(), InputManager::keyCallback);
 		_inputHandler.handleKeys(this);
+
+		// grtavity point from mouse pos
+		vec3 pos = _scene->camera().getPosition() + _scene->camera().getFront() * 50;
+		// float x = (2.0f * _inputContext.mouseX) / SCR_WIDTH - 1.0f;
+		// float y = 1.0f - (2.0f * _inputContext.mouseY) / SCR_WIDTH;
+		// float z = 1.0f;
+		// vec3 rayNDC(x, y, z);
+		// vec4 rayClip(x, y, -1.f, 1.f);
+		// vec4 rayEye = glm::inverse(projection) * rayClip;
+		_scene->setGravityPos(pos);
+		// end of it
 		_scene->update(_deltaTime);
 
 		_simulation.simulate(*_scene, _deltaTime);

@@ -30,7 +30,7 @@ void Simulation::simulate(const Scene& scene, float deltaTime) const
 	_update.setFloat("delta_time", deltaTime);
 	_update.setInt("particles_nbr", particlesNbr);
 	_update.setBool("gravity_on", scene.getGravity());
-	_update.setVec3("gravity_pos", vec3());
+	_update.setVec3("gravity_pos", scene.getGravityPos());
 	particles.compute(_update);
 };
 

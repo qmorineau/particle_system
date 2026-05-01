@@ -35,7 +35,7 @@ void main()
 	if (i >= particles_nbr)
 		return;
 
-	particles[i].timeToDeath -= delta_time;
+	// particles[i].timeToDeath -= delta_time;
 	if (particles[i].timeToDeath <= 0)
 		particles[i].isDead = 1;
 

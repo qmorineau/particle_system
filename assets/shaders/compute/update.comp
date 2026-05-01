@@ -30,7 +30,8 @@ vec3 calculate_velocity(uint i)
 		float dist = length(dir);
 		vec3 normal_dir = normalize(dir);
 
-		float G = 9.31;
+		// float G = 9.31;
+		float G = 20;
 		float force = G / (dist * dist + 0.001);
 		
 		vel += dir * force * delta_time;
@@ -47,10 +48,11 @@ vec3 hsv2rgb(vec3 c) {
 vec3 calculate_color(uint i)
 {
 	// float d = distance(particles[i].pos.xyz, gravity_pos);
-	// float t = smoothstep(0.0, 3.0, d);
+	// float t = smoothstep(0.0, 25.0, d);
 	// vec3 color = vec3(t, 0.0, 1.0 - t);
 
-	// float intensity = exp(-d * 1.0); // chute exponentielle
+	// float d = distance(particles[i].pos.xyz, gravity_pos);
+	// float intensity = exp(-d * 0.01); // chute exponentielle
 	// vec3 color = vec3(intensity);
 
 	// vec3 color = 0.5 + 0.5 * vec3(
@@ -59,8 +61,11 @@ vec3 calculate_color(uint i)
 	// 	sin(d * 6.2831 + 4.188)
 	// );
 
-	float t = clamp(particles[i].timeToDeath / particles[i].lifeTime, 0.0, 1.0);
-	vec3 color = hsv2rgb(vec3(t, 1.0, 1.0));
+	// float t = clamp(particles[i].timeToDeath / particles[i].lifeTime, 0.0, 1.0);
+	// vec3 color = hsv2rgb(vec3(t, 1.0, 1.0));
+
+	float d = clamp(distance(particles[i].pos.xyz, gravity_pos) / 50, 0.0, 1.0);
+	vec3 color = hsv2rgb(vec3(d, 1.0, 1.0));
 
 	return color;
 }
