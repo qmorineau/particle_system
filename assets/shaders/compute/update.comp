@@ -12,13 +12,25 @@ struct Particle
 	int isDead;
 };
 
+layout(std140, binding = 1) uniform CameraData {
+    mat4 uProjection;
+    mat4 uView;
+    vec3 uViewPos;
+    float _pad0;
+    vec2 uMouseNDC;
+    float uNear;
+    float uFar;
+};
+
 layout(std430, binding = 0) buffer Particles { Particle particles[]; };
 
 uniform float delta_time;
 uniform int   particles_nbr;
 uniform int   gravity_on;
 uniform vec3  gravity_pos;
+uniform vec2  mouse_pos;
 
+shared vec3 gravityPoint;
 
 vec3 calculate_velocity(uint i)
 {
@@ -26,7 +38,7 @@ vec3 calculate_velocity(uint i)
 
 	if (gravity_on == 1)
 	{
-		vec3 dir = gravity_pos.xyz - particles[i].pos.xyz;
+		vec3 dir = gravityPoint - particles[i].pos.xyz;
 		float dist = length(dir);
 		vec3 normal_dir = normalize(dir);
 
@@ -39,6 +51,13 @@ vec3 calculate_velocity(uint i)
 	return vel;
 }
 
+vec3 unproject(vec2 ndc, float depth, mat4 invViewProj)
+{
+    vec4 clip = vec4(ndc, depth, 1.0);
+    vec4 world = invViewProj * clip;
+    return world.xyz / world.w;
+}
+
 // to test
 vec3 hsv2rgb(vec3 c) {
     vec3 rgb = clamp(abs(mod(c.x*6.0 + vec3(0.0,4.0,2.0), 6.0)-3.0)-1.0, 0.0, 1.0);
@@ -47,9 +66,9 @@ vec3 hsv2rgb(vec3 c) {
 
 vec3 calculate_color(uint i)
 {
-	// float d = distance(particles[i].pos.xyz, gravity_pos);
-	// float t = smoothstep(0.0, 25.0, d);
-	// vec3 color = vec3(t, 0.0, 1.0 - t);
+	float d = distance(particles[i].pos.xyz, gravityPoint);
+	float t = smoothstep(0.0, 50.0, d);
+	vec3 color = vec3(t, 0.0, 1.0 - t);
 
 	// float d = distance(particles[i].pos.xyz, gravity_pos);
 	// float intensity = exp(-d * 0.01); // chute exponentielle
@@ -64,14 +83,32 @@ vec3 calculate_color(uint i)
 	// float t = clamp(particles[i].timeToDeath / particles[i].lifeTime, 0.0, 1.0);
 	// vec3 color = hsv2rgb(vec3(t, 1.0, 1.0));
 
-	float d = clamp(distance(particles[i].pos.xyz, gravity_pos) / 50, 0.0, 1.0);
-	vec3 color = hsv2rgb(vec3(d, 1.0, 1.0));
+	// float d = clamp(distance(particles[i].pos.xyz, gravity_pos) / 50, 0.0, 1.0);
+	// vec3 color = hsv2rgb(vec3(d, 1.0, 1.0));
+
+	// float d = distance(particles[i].pos.xyz, vec3(mouse_pos.xy, 0.0));
+	// float t = clamp(d / 10000, 0.0, 1.0);
+
+	// vec3 nearColor = vec3(1.0);        // blanc
+	// vec3 farColor  = vec3(0.0, 0.3, 1.0); // bleu
+
+// vec3 color = mix(nearColor, farColor, t);
 
 	return color;
 }
 
 void main()
 {
+	if (gl_LocalInvocationID.x == 0) {
+		mat4 invViewProj = inverse(uProjection * uView);
+
+		vec3 worldNear = unproject(uMouseNDC, 0.0, invViewProj);
+		vec3 worldFar  = unproject(uMouseNDC, 1.0, invViewProj);
+		vec3 rayDir = normalize(worldFar - worldNear);
+
+		gravityPoint = worldNear + rayDir * 50.0;
+	}
+	barrier();
 	uint i = gl_GlobalInvocationID.x;
 	if (i >= particles_nbr)
 		return;

@@ -12,7 +12,7 @@ Simulation::Simulation() :
 
 Simulation::~Simulation() {};
 
-void Simulation::simulate(const Scene& scene, float deltaTime) const
+void Simulation::simulate(const Scene& scene, const vec2& mouseNDC, float deltaTime) const
 {
 	int particlesNbr = scene.getParticles();
 	ParticlesGPU& particles = scene.particles();
@@ -31,6 +31,7 @@ void Simulation::simulate(const Scene& scene, float deltaTime) const
 	_update.setInt("particles_nbr", particlesNbr);
 	_update.setBool("gravity_on", scene.getGravity());
 	_update.setVec3("gravity_pos", scene.getGravityPos());
+	_update.setVec2("mouse_pos", mouseNDC);
 	particles.compute(_update);
 };
 

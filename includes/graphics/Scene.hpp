@@ -3,6 +3,7 @@
 
 #include "Types.hpp"
 #include "Camera.hpp"
+#include "CameraGPU.hpp"
 
 class ParticlesGPU;
 
@@ -12,7 +13,7 @@ class Scene
 		Scene(unsigned int);
 		~Scene();
 
-		void update(float deltaTime);
+		void update(float deltaTime, const vec2& mouseNDC);
 
 		// setter
 		void			toggleGravity() {_isGravity = !_isGravity;};
@@ -26,6 +27,7 @@ class Scene
 		vec3			getGravityPos() const {return _gravityPos;};
 	private:
 		ParticlesGPU*	_particlesGPU;
+		CameraGPU		_cameraGPU;
 		unsigned int	_particles;
 		Camera			_camera;
 		vec3			_gravityPos;

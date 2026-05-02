@@ -1,14 +1,14 @@
 #ifndef INPUTCONTEXTHPP
 #define INPUTCONTEXTHPP
 
+#include "Types.hpp"
+
 struct InputContext
 {
 	bool	keys[1024] = {false};
-	double	mouseX = 0;
-	double	mouseY = 0;
+	vec2	mousePos;
 	bool	mouseMoved = false;
-	double	mouseOffsetX = 0;
-	double	mouseOffsetY = 0;
+	vec2	mouseOffset;
 	bool	mouseScrolled = false;
 };
 

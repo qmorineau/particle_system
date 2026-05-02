@@ -53,17 +53,15 @@ void Application::renderLoop()
 
 		// grtavity point from mouse pos
 		vec3 pos = _scene->camera().getPosition() + _scene->camera().getFront() * 50;
-		// float x = (2.0f * _inputContext.mouseX) / SCR_WIDTH - 1.0f;
-		// float y = 1.0f - (2.0f * _inputContext.mouseY) / SCR_WIDTH;
-		// float z = 1.0f;
-		// vec3 rayNDC(x, y, z);
-		// vec4 rayClip(x, y, -1.f, 1.f);
-		// vec4 rayEye = glm::inverse(projection) * rayClip;
+		vec2 NDC(
+			(2.0f * _inputContext.mousePos.x) / SCR_WIDTH - 1.0f,
+			1.0f - (2.0f * _inputContext.mousePos.y) / SCR_HEIGHT
+		); // Normal Device Coordinate
+		
 		_scene->setGravityPos(pos);
-		// end of it
-		_scene->update(_deltaTime);
+		_scene->update(_deltaTime, NDC);
 
-		_simulation.simulate(*_scene, _deltaTime);
+		_simulation.simulate(*_scene, NDC, _deltaTime);
 		
 		_renderer.beginFrame();
 		_renderer.draw(_scene);
@@ -82,8 +80,8 @@ void Application::endFrame()
     auto& ctx = _inputContext;
     ctx.mouseMoved = false;
     ctx.mouseScrolled = false;
-    ctx.mouseOffsetX = 0;
-    ctx.mouseOffsetY = 0;
+    ctx.mouseOffset.x = 0;
+    ctx.mouseOffset.y = 0;
 }
 
 void Application::setShape(Simulation::Shape shape)

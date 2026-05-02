@@ -22,13 +22,6 @@ void Renderer::draw(Scene* scene)
 	// Use shader
     _render.use();
 
-	// Camera
-	Camera& camera = scene->camera();
-    mat4 projection = mat4::perspective(math::radians(camera.getZoom()), camera.getAspectRatio(), 0.001f, 1000.0f);
-    _render.setMat4("projection", projection);
-    _render.setMat4("view", camera.getViewMatrix());
-	_render.setVec3("viewPos", vec3(camera.getPosition()));
-
 	// Draw
 	scene->particles().bindVAO();
 	glDrawArrays(GL_POINTS, 0, scene->getParticles());

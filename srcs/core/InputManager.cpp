@@ -10,8 +10,8 @@ void InputManager::mouseCallback(GLFWwindow* window, double xposIn, double yposI
 	{
 		InputContext& ctx = app->inputContext();
 		ctx.mouseMoved = true;
-		ctx.mouseX = xposIn;
-		ctx.mouseY = yposIn;
+		ctx.mousePos.x = xposIn;
+		ctx.mousePos.y = yposIn;
 	}
 }
 
@@ -22,8 +22,8 @@ void InputManager::scrollCallback(GLFWwindow* window, double xoffset, double yof
 	{
 		InputContext& ctx = app->inputContext();
 		ctx.mouseScrolled = true;
-		ctx.mouseOffsetX = xoffset;
-		ctx.mouseOffsetY = yoffset;
+		ctx.mouseOffset.x = xoffset;
+		ctx.mouseOffset.y = yoffset;
 	}
 }
 

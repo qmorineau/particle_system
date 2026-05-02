@@ -17,7 +17,7 @@ class Simulation
 		Simulation();
 		~Simulation();
 
-		void simulate(const Scene& scene, float deltaTime) const;
+		void simulate(const Scene& scene, const vec2& mouse, float deltaTime) const;
 		void setShape(const Scene& scene, Shape shape) const;
 	private:
 		Shader	_update;

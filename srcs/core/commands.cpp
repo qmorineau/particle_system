@@ -10,13 +10,13 @@ void Commands::CloseWindow::execute(Application* app) const
 void Commands::MouseMove::execute(Application* app) const
 {
 	InputContext& ctx = app->inputContext();
-	app->scene()->camera().onMouseMove(ctx.mouseX, ctx.mouseY);
+	app->scene()->camera().onMouseMove(ctx.mousePos.x, ctx.mousePos.y);
 };
 
 void Commands::MouseScroll::execute(Application* app) const
 {
 	InputContext& ctx = app->inputContext();
-	app->getCamera().onMouseScroll(ctx.mouseOffsetX, ctx.mouseOffsetY);
+	app->getCamera().onMouseScroll(ctx.mouseOffset.x, ctx.mouseOffset.y);
 };
 
 void Commands::ToggleMouse::execute(Application* app) const

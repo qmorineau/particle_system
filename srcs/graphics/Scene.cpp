@@ -16,7 +16,9 @@ Scene::~Scene()
 		delete _particlesGPU;
 }
 
-void Scene::update(float deltaTime)
+void Scene::update(float deltaTime, const vec2& mouseNDC)
 {
 	(void) deltaTime;
+	_cameraGPU.setData(_camera, mouseNDC);
+	_cameraGPU.updateCameraUBO();
 };

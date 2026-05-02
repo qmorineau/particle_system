@@ -21,14 +21,14 @@ class Matrix4
 			public:
 				const char* what() const throw() {return "Error: Array can't go into matrix";};
 		};
+		Matrix4() {}
 
 		Matrix4(const std::vector<float> v)
 		{
 			if (v.size() != 16)
 				throw WrongArraySize();
-			data.reserve(16);
 			for (size_t i = 0; i < v.size(); i++)
-				data.push_back(static_cast<float>(v[i]));
+				data[i] = static_cast<float>(v[i]);
 		};
 
 		~Matrix4() {};
@@ -89,14 +89,14 @@ class Matrix4
 		const float& operator()(size_t c, size_t r) const
 		{
 			size_t idx = c + r * 4;
-			if (idx >= data.size())
+			if (idx >= 16)
 				throw OutOfBound();
 			return (data[idx]);
 		}
 
 		const float* dataPtr() const
 		{
-			return data.data();
+			return data;
 		}
 
 		static Matrix4 rotateX(float angle)
@@ -136,7 +136,7 @@ class Matrix4
 		}
 
 	private:
-		std::vector<float> data;
+		float data[16] = {0.f};
 };
 
 using mat4 = Matrix4;

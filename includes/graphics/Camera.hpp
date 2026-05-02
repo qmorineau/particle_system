@@ -37,7 +37,7 @@ class Camera
 			float pitch = 0.0f);
 
 		// returns the view matrix calculated using Euler Angles and the LookAt Matrix
-		mat4	getViewMatrix() {return mat4::lookAt(_position, _position + _front, _up);}
+		mat4	getViewMatrix() const {return mat4::lookAt(_position, _position + _front, _up);}
 		void	resize(int width, int height);
 		// processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
 		void	processKeyboard(CameraMovement direction, float deltaTime);
@@ -48,10 +48,12 @@ class Camera
 		void	changeMode();
 		void	changePosition(const vec3&);
 		// getter
-		float	getZoom() {return _zoom;};
-		float	getAspectRatio() {return _aspectRatio;};
+		float	getZoom() const {return _zoom;};
+		float	getAspectRatio() const {return _aspectRatio;};
 		vec3 	getPosition() const {return _position;};
 		vec3 	getFront() const {return _front;};
+		float	getFar() const {return _far;};
+		float	getNear() const {return _near;};
 	private:
 		// camera Attributes
 		vec3 		_position;
@@ -74,6 +76,9 @@ class Camera
 		float 		_lastX = 0.0f;
 		float 		_lastY = 0.0f;
 		CameraMode	_mode;
+
+		float		_far = 1000.f;
+		float		_near = 0.001f;
 
 		const vec3	_target;
 		const vec3	_baseFront;
