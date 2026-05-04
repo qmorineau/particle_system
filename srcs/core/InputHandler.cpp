@@ -5,13 +5,16 @@
 InputHandler::InputHandler()
 {
 	// Key Press
-	_eventCommand[CMD_MOUSE_MOVE] = std::make_unique<Commands::MouseMove>();
-	_eventCommand[CMD_MOUSE_SCROLL] = std::make_unique<Commands::MouseScroll>();
-	_eventCommand[GLFW_KEY_ESCAPE] = std::make_unique<Commands::CloseWindow>();
-	_eventCommand[GLFW_KEY_M] = std::make_unique<Commands::ToggleMouse>();
-	_eventCommand[GLFW_KEY_G] = std::make_unique<Commands::ToggleGravity>();
-	_eventCommand[GLFW_KEY_1] = std::make_unique<Commands::SetCubeShape>();
-	_eventCommand[GLFW_KEY_2] = std::make_unique<Commands::SetSphereShape>();
+	_eventMouseCommand[GLFW_MOUSE_BUTTON_LEFT] = std::make_unique<Commands::DisableMouse>();
+	_eventMouseCommand[CMD_MOUSE_MOVE] = std::make_unique<Commands::MouseMove>();
+	_eventMouseCommand[CMD_MOUSE_SCROLL] = std::make_unique<Commands::MouseScroll>();
+	_eventKeyCommand[GLFW_KEY_ESCAPE] = std::make_unique<Commands::CloseWindow>();
+	_eventKeyCommand[GLFW_KEY_TAB] = std::make_unique<Commands::EnableMouse>();
+	_eventKeyCommand[GLFW_KEY_G] = std::make_unique<Commands::ToggleGravity>();
+	_eventKeyCommand[GLFW_KEY_E] = std::make_unique<Commands::ToggleEmitter>();
+	_eventKeyCommand[GLFW_KEY_1] = std::make_unique<Commands::SetCubeShape>();
+	_eventKeyCommand[GLFW_KEY_2] = std::make_unique<Commands::SetSphereShape>();
+	_eventKeyCommand[GLFW_KEY_R] = std::make_unique<Commands::CameraReset>();
 	// Repeat Key
 	_continuousCommand[GLFW_KEY_W] = std::make_unique<Commands::CameraForward>();
 	_continuousCommand[GLFW_KEY_S] = std::make_unique<Commands::CameraBackward>();
@@ -21,28 +24,20 @@ InputHandler::InputHandler()
 
 InputHandler::~InputHandler() {};
 
-void InputHandler::executeID(Application* app, int id)
-{
-	auto iterator = _eventCommand.find(id);
-	if (iterator == _eventCommand.end())
-		return;
-	iterator->second->execute(app);
-}
-
 void InputHandler::handleKeysCallback(Application* app, int key)
 {
-	executeID(app, key);
+	auto iterator = _eventKeyCommand.find(key);
+	if (iterator == _eventKeyCommand.end())
+		return;
+	iterator->second->execute(app);
 };
 
-void InputHandler::handleMouseMove(Application* app)
+void InputHandler::handleMouseCallback(Application* app, int key)
 {
-	if (!app->window().getMouse())
-		executeID(app, CMD_MOUSE_MOVE);
-}
-
-void InputHandler::handleMouseScroll(Application* app)
-{
-	executeID(app, CMD_MOUSE_SCROLL);
+	auto iterator = _eventMouseCommand.find(key);
+	if (iterator == _eventMouseCommand.end())
+		return;
+	iterator->second->execute(app);
 }
 
 void InputHandler::handleKeys(Application* app)

@@ -17,21 +17,22 @@ class Scene
 
 		// setter
 		void			toggleGravity() {_isGravity = !_isGravity;};
-		void			setGravityPos(vec3 pos) {_gravityPos = pos;};
+		void			toggleEmitter() {_isEmitter = !_isEmitter;};
+
 		// getter
 		Camera&			camera() {return _camera;};
 		const Camera&	camera() const {return _camera;};
 		ParticlesGPU&	particles() const {return *_particlesGPU;};
 		int				getParticles() const {return _particles;};
 		bool			getGravity() const {return _isGravity;};
-		vec3			getGravityPos() const {return _gravityPos;};
+		bool			getEmitter() const {return _isEmitter;};
 	private:
 		ParticlesGPU*	_particlesGPU;
 		CameraGPU		_cameraGPU;
 		unsigned int	_particles;
 		Camera			_camera;
-		vec3			_gravityPos;
 		bool			_isGravity = false;
+		bool			_isEmitter = false;
 
 		void applyRotation(float deltaTime);
 };

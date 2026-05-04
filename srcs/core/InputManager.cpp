@@ -2,7 +2,24 @@
 #include "Application.hpp"
 #include "Camera.hpp"
 
-// Callbacks
+// Mouse
+void InputManager::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) 
+{
+	(void) mods;
+	Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+	if (app)
+	{
+		InputContext& ctx = app->inputContext();
+		if (action == GLFW_PRESS)
+			ctx.mouse[button] = true;
+		else if (action == GLFW_RELEASE)
+		{
+			ctx.mouse[button] = false;
+			app->inputHandler().handleMouseCallback(app, button);
+		}
+	}
+}
+
 void InputManager::mouseCallback(GLFWwindow* window, double xposIn, double yposIn) 
 {
 	Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
@@ -26,7 +43,7 @@ void InputManager::scrollCallback(GLFWwindow* window, double xoffset, double yof
 		ctx.mouseOffset.y = yoffset;
 	}
 }
-
+// Keyboard
 void InputManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	(void) scancode /* physical position of a key, not keyboard dependent */;
@@ -36,11 +53,12 @@ void InputManager::keyCallback(GLFWwindow* window, int key, int scancode, int ac
     if (!app)
 		return;
 
+	InputContext& ctx = app->inputContext();
 	if (action == GLFW_PRESS)
-		app->inputContext().keys[key] = true;
+		ctx.keys[key] = true;
     else if (action == GLFW_RELEASE)
-		app->inputContext().keys[key] = false;
-
-	if (action == GLFW_RELEASE)
+	{
+		ctx.keys[key] = false;
 		app->inputHandler().handleKeysCallback(app, key);
+	}
 }

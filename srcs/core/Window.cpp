@@ -29,6 +29,7 @@ Window::Window(Application* app)
     glfwSetFramebufferSizeCallback(_window, Window::framebufferSizeCallback);
 	glfwSetCursorPosCallback(_window, InputManager::mouseCallback);
     glfwSetScrollCallback(_window, InputManager::scrollCallback);
+	glfwSetMouseButtonCallback(_window, InputManager::mouseButtonCallback);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
@@ -73,11 +74,20 @@ void Window::closeWindow()
 	glfwSetWindowShouldClose(_window, true);
 };
 
-void Window::toggleMouse()
+void Window::enableMouse()
 {
-	_isMouse = !_isMouse;
-	if (_isMouse)
+	if (!_isMouse)
+	{
+		_isMouse = true;
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	else
+	}
+}
+
+void Window::disableMouse()
+{
+	if (_isMouse)
+	{
+		_isMouse = false;
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
 }

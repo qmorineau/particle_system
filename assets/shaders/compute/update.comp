@@ -27,10 +27,11 @@ layout(std430, binding = 0) buffer Particles { Particle particles[]; };
 uniform float delta_time;
 uniform int   particles_nbr;
 uniform int   gravity_on;
-uniform vec3  gravity_pos;
+uniform int   emitter_on;
 uniform vec2  mouse_pos;
 
 shared vec3 gravityPoint;
+shared vec3 emitterPoint;
 
 vec3 calculate_velocity(uint i)
 {
@@ -42,8 +43,7 @@ vec3 calculate_velocity(uint i)
 		float dist = length(dir);
 		vec3 normal_dir = normalize(dir);
 
-		// float G = 9.31;
-		float G = 20;
+		float G = 9.31;
 		float force = G / (dist * dist + 0.001);
 		
 		vel += dir * force * delta_time;
@@ -106,7 +106,14 @@ void main()
 		vec3 worldFar  = unproject(uMouseNDC, 1.0, invViewProj);
 		vec3 rayDir = normalize(worldFar - worldNear);
 
-		gravityPoint = worldNear + rayDir * 50.0;
+		if (gravity_on == 1)
+		{
+			gravityPoint = worldNear + rayDir * 50.0;
+		}
+		else if (emitter_on == 1)
+		{
+			emitterPoint = worldNear + rayDir * 50.0;
+		}
 	}
 	barrier();
 	uint i = gl_GlobalInvocationID.x;

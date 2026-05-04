@@ -15,13 +15,15 @@ namespace Commands
 	{
 		void execute(Application* app) const override;
 	};
-
 	class MouseScroll : public ICommand
 	{
 		void execute(Application* app) const override;
 	};
-
-	class ToggleMouse : public ICommand
+	class EnableMouse : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
+	class DisableMouse : public ICommand
 	{
 		void execute(Application* app) const override;
 	};
@@ -45,6 +47,10 @@ namespace Commands
 	{
 		void execute(Application* app) const override;
 	};
+	class CameraReset : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
 	// Shape
 	class SetCubeShape : public ICommand
 	{
@@ -56,6 +62,10 @@ namespace Commands
 	};
 	// Simulation
 	class ToggleGravity : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
+	class ToggleEmitter : public ICommand
 	{
 		void execute(Application* app) const override;
 	};

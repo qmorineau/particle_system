@@ -38,7 +38,8 @@ class Window
 		void 		manageTitle(Application& app);
 		static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 		void 		closeWindow();
-		void		toggleMouse();
+		void		enableMouse();
+		void		disableMouse();
 		// getter
 		GLFWwindow* getWindow() {return _window;};
 		bool		getMouse() {return _isMouse;};

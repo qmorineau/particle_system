@@ -6,6 +6,7 @@
 struct InputContext
 {
 	bool	keys[1024] = {false};
+	bool	mouse[8] = {false};
 	vec2	mousePos;
 	bool	mouseMoved = false;
 	vec2	mouseOffset;

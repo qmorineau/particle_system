@@ -5,7 +5,7 @@ Application::Application(char* arg) :
 	_scene(nullptr),
 	_renderer()
 {
-	int particles = 1000000;
+	int particles = 3000000;
 	if (arg)
 	{
 		int tmp = std::atoi(arg);
@@ -37,9 +37,9 @@ void Application::renderLoop()
 	{
 		// Mouse
 		if (_inputContext.mouseMoved)
-			_inputHandler.handleMouseMove(this);
+			_inputHandler.handleMouseCallback(this, InputHandler::CommandID::CMD_MOUSE_MOVE);
 		if (_inputContext.mouseScrolled)
-			_inputHandler.handleMouseScroll(this);
+			_inputHandler.handleMouseCallback(this, InputHandler::CommandID::CMD_MOUSE_SCROLL);
 
 		// Frame / Delta
 		float currentFrame = static_cast<float>(glfwGetTime());
@@ -51,14 +51,12 @@ void Application::renderLoop()
 		glfwSetKeyCallback(_window.getWindow(), InputManager::keyCallback);
 		_inputHandler.handleKeys(this);
 
-		// grtavity point from mouse pos
-		vec3 pos = _scene->camera().getPosition() + _scene->camera().getFront() * 50;
+		// world space pos from mouse pos
 		vec2 NDC(
 			(2.0f * _inputContext.mousePos.x) / SCR_WIDTH - 1.0f,
 			1.0f - (2.0f * _inputContext.mousePos.y) / SCR_HEIGHT
 		); // Normal Device Coordinate
 		
-		_scene->setGravityPos(pos);
 		_scene->update(_deltaTime, NDC);
 
 		_simulation.simulate(*_scene, NDC, _deltaTime);

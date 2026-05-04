@@ -9,8 +9,11 @@ void Commands::CloseWindow::execute(Application* app) const
 // Mouse
 void Commands::MouseMove::execute(Application* app) const
 {
-	InputContext& ctx = app->inputContext();
-	app->scene()->camera().onMouseMove(ctx.mousePos.x, ctx.mousePos.y);
+	if (!app->window().getMouse())
+	{
+		InputContext& ctx = app->inputContext();
+		app->scene()->camera().onMouseMove(ctx.mousePos.x, ctx.mousePos.y);
+	}
 };
 
 void Commands::MouseScroll::execute(Application* app) const
@@ -18,10 +21,14 @@ void Commands::MouseScroll::execute(Application* app) const
 	InputContext& ctx = app->inputContext();
 	app->getCamera().onMouseScroll(ctx.mouseOffset.x, ctx.mouseOffset.y);
 };
-
-void Commands::ToggleMouse::execute(Application* app) const
+void Commands::EnableMouse::execute(Application* app) const
 {
-	app->window().toggleMouse();
+	app->window().enableMouse();
+};
+void Commands::DisableMouse::execute(Application* app) const
+{
+	glfwSetCursorPos(app->window().getWindow(), SCR_WIDTH / 2, SCR_HEIGHT / 2);
+	app->window().disableMouse();
 };
 // Camera
 void Commands::CameraForward::execute(Application* app) const
@@ -43,6 +50,10 @@ void Commands::CameraRight::execute(Application* app) const
 {
 	app->getCamera().processKeyboard(Camera::RIGHT, app->getDelta());
 };
+void Commands::CameraReset::execute(Application* app) const
+{
+	app->getCamera().resetPosition();
+};
 // Shape
 void Commands::SetCubeShape::execute(Application* app) const
 {
@@ -57,3 +68,8 @@ void Commands::ToggleGravity::execute(Application* app) const
 {
 	app->scene()->toggleGravity();
 };
+void Commands::ToggleEmitter::execute(Application* app) const
+{
+	app->scene()->toggleEmitter();
+};
+

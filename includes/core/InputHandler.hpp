@@ -11,23 +11,22 @@ class Application;
 class InputHandler
 {
 	public:
+		enum CommandID
+		{
+			CMD_MOUSE_MOVE = 9,
+			CMD_MOUSE_SCROLL = 10,
+		};
 		InputHandler();
 		~InputHandler();
 		
 		void handleKeysCallback(Application* app, int key);
-		void handleMouseScroll(Application* app);
-		void handleMouseMove(Application* app);
+		void handleMouseCallback(Application* app, int key);
 		void handleKeys(Application* app);
 
 	private:
-		enum CommandID
-		{
-			CMD_MOUSE_MOVE = 10000,
-			CMD_MOUSE_SCROLL = 10001
-		};
-		std::unordered_map<int, std::unique_ptr<ICommand>> _eventCommand;
+		std::unordered_map<int, std::unique_ptr<ICommand>> _eventKeyCommand;
+		std::unordered_map<int, std::unique_ptr<ICommand>> _eventMouseCommand;
 		std::unordered_map<int, std::unique_ptr<ICommand>> _continuousCommand;
-		void executeID(Application* app, int id);
 };
 
  #endif
