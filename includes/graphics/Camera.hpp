@@ -26,7 +26,6 @@ class Camera
 		enum CameraMode
 		{
 			FREE,
-			ORBITAL
 		};
 
 		Camera(int width = 800, 
@@ -45,8 +44,9 @@ class Camera
 		void	onMouseScroll(double xoffset, double yoffset);
 		void	resetPosition();
 		void	updateOrientation();
-		void	changeMode();
 		void	changePosition(const vec3&);
+		// setter
+		void	disableMouse() {_firstMouse = true;};
 		// getter
 		float	getZoom() const {return _zoom;};
 		float	getAspectRatio() const {return _aspectRatio;};
@@ -87,7 +87,6 @@ class Camera
 		// calculates the front vector from the Camera's (updated) Euler Angles
 		void updateCameraVectors();
 		void moveFreeMode(CameraMovement dir, float deltaTime);
-		void moveOrbitalMode(CameraMovement dir, float deltaTime);
 };
 
 #endif

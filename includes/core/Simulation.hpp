@@ -22,7 +22,6 @@ class Simulation
 	private:
 		Shader	_update;
 		Shader	_shape;
-		Shader	_emitter;
 };
 
 #endif

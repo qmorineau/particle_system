@@ -18,6 +18,8 @@ class Scene
 		// setter
 		void			toggleGravity() {_isGravity = !_isGravity;};
 		void			toggleEmitter() {_isEmitter = !_isEmitter;};
+		void			accelerateTimeSpeed(); 
+		void			slowTimeSpeed();
 
 		// getter
 		Camera&			camera() {return _camera;};
@@ -26,6 +28,7 @@ class Scene
 		int				getParticles() const {return _particles;};
 		bool			getGravity() const {return _isGravity;};
 		bool			getEmitter() const {return _isEmitter;};
+		float			getTimeSpeed() const {return _timeSpeed;};
 	private:
 		ParticlesGPU*	_particlesGPU;
 		CameraGPU		_cameraGPU;
@@ -33,6 +36,7 @@ class Scene
 		Camera			_camera;
 		bool			_isGravity = false;
 		bool			_isEmitter = false;
+		float			_timeSpeed = 1.f;
 
 		void applyRotation(float deltaTime);
 };

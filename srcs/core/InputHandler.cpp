@@ -20,6 +20,8 @@ InputHandler::InputHandler()
 	_continuousCommand[GLFW_KEY_S] = std::make_unique<Commands::CameraBackward>();
 	_continuousCommand[GLFW_KEY_A] = std::make_unique<Commands::CameraLeft>();
 	_continuousCommand[GLFW_KEY_D] = std::make_unique<Commands::CameraRight>();
+	_continuousCommand[GLFW_KEY_LEFT] = std::make_unique<Commands::SlowTime>();
+	_continuousCommand[GLFW_KEY_RIGHT] = std::make_unique<Commands::AccelerateTime>();
 }
 
 InputHandler::~InputHandler() {};

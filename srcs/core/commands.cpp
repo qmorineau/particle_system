@@ -10,7 +10,7 @@ void Commands::CloseWindow::execute(Application* app) const
 void Commands::MouseMove::execute(Application* app) const
 {
 	if (!app->window().getMouse())
-	{
+	{	
 		InputContext& ctx = app->inputContext();
 		app->scene()->camera().onMouseMove(ctx.mousePos.x, ctx.mousePos.y);
 	}
@@ -27,6 +27,7 @@ void Commands::EnableMouse::execute(Application* app) const
 };
 void Commands::DisableMouse::execute(Application* app) const
 {
+	app->getCamera().disableMouse();
 	glfwSetCursorPos(app->window().getWindow(), SCR_WIDTH / 2, SCR_HEIGHT / 2);
 	app->window().disableMouse();
 };
@@ -72,4 +73,11 @@ void Commands::ToggleEmitter::execute(Application* app) const
 {
 	app->scene()->toggleEmitter();
 };
-
+void Commands::SlowTime::execute(Application* app) const
+{
+	app->scene()->slowTimeSpeed();
+};
+void Commands::AccelerateTime::execute(Application* app) const
+{
+	app->scene()->accelerateTimeSpeed();
+};

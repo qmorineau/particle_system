@@ -22,3 +22,23 @@ void Scene::update(float deltaTime, const vec2& mouseNDC)
 	_cameraGPU.setData(_camera, mouseNDC);
 	_cameraGPU.updateCameraUBO();
 };
+
+void Scene::accelerateTimeSpeed()
+{
+	if (_timeSpeed < 1.f)
+	{
+		_timeSpeed += 0.01;
+		if (_timeSpeed > 1.f)
+			_timeSpeed = 1.f;
+	}
+};
+
+void Scene::slowTimeSpeed()
+{
+	if (_timeSpeed > 0.f)
+	{
+		_timeSpeed -= 0.01;
+		if (_timeSpeed < 0.f)
+			_timeSpeed = 0.f;
+	}
+};

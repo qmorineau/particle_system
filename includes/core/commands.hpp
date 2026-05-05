@@ -69,6 +69,14 @@ namespace Commands
 	{
 		void execute(Application* app) const override;
 	};
+	class SlowTime : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
+	class AccelerateTime : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
 };
 
 #endif
