@@ -77,7 +77,7 @@ namespace Commands
 	{
 		void execute(Application* app) const override;
 	};
-	class ShotEmitter : public ICommand
+	class ChangeColorMode : public ICommand
 	{
 		void execute(Application* app) const override;
 	};

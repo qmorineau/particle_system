@@ -40,8 +40,13 @@ uniform int   emitter_on;
 uniform vec2  mouse_pos;
 uniform float life_span;
 uniform float time_speed;
+uniform int   color_mode;
 
 shared vec3 gravityPoint;
+
+const int COLOR_MODE_MOUSE = 0;
+const int COLOR_MODE_GRAVITY = 1;
+const int COLOR_MODE_EMITTER = 2;
 
 float hash(uint x)
 {
@@ -82,9 +87,27 @@ vec3 calculate_color(uint i)
 {
 	float dGrav = distance(particles[i].pos.xyz, gravityPoint);
 	float dEmit = distance(particles[i].pos.xyz, emitter.pos.xyz);
-	float tGrav = smoothstep(0.0, 50.0, dGrav);
-	float tEmit = smoothstep(0.0, 50.0, dEmit);
-	vec3 color = vec3(1.0 - tGrav, 1.0 - tEmit, tEmit);
+	float tGrav = smoothstep(0.0, 75.0, dGrav);
+	float tEmit = smoothstep(0.0, 75.0, dEmit);
+
+	vec3 color;
+	switch (color_mode)
+	{
+		case COLOR_MODE_MOUSE:
+			vec4 world = vec4(particles[i].pos.xyz, 1.0f);
+			vec4 clip = uProjection * uView * world;
+			vec3 ndc = vec3(clip) / clip.w;
+			float d = length(ndc.xy - uMouseNDC);
+			float t = clamp(d * 0.5, 0.0, 1.0);
+			color = vec3(t, 1.0 - t, 0.5 - t);
+			break;
+		case COLOR_MODE_GRAVITY:
+			color = vec3(1.0 - tGrav, 0.35 - tGrav, 0.35 - tGrav);
+			break;
+		case COLOR_MODE_EMITTER:
+			color = vec3(0.75 - tEmit, 1.0 - tEmit, 0.75 - tEmit);
+			break;
+	}
 	return color;
 }
 

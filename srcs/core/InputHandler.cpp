@@ -6,7 +6,6 @@ InputHandler::InputHandler()
 {
 	// Key Press
 	_eventMouseCommand[GLFW_MOUSE_BUTTON_LEFT] = std::make_unique<Commands::DisableMouse>();
-	_eventMouseCommand[GLFW_MOUSE_BUTTON_RIGHT] = std::make_unique<Commands::ShotEmitter>();
 	_eventMouseCommand[CMD_MOUSE_MOVE] = std::make_unique<Commands::MouseMove>();
 	_eventMouseCommand[CMD_MOUSE_SCROLL] = std::make_unique<Commands::MouseScroll>();
 	_eventKeyCommand[GLFW_KEY_ESCAPE] = std::make_unique<Commands::CloseWindow>();
@@ -16,6 +15,7 @@ InputHandler::InputHandler()
 	_eventKeyCommand[GLFW_KEY_1] = std::make_unique<Commands::SetCubeShape>();
 	_eventKeyCommand[GLFW_KEY_2] = std::make_unique<Commands::SetSphereShape>();
 	_eventKeyCommand[GLFW_KEY_R] = std::make_unique<Commands::CameraReset>();
+	_eventKeyCommand[GLFW_KEY_C] = std::make_unique<Commands::ChangeColorMode>();
 	// Repeat Key
 	_continuousCommand[GLFW_KEY_W] = std::make_unique<Commands::CameraForward>();
 	_continuousCommand[GLFW_KEY_S] = std::make_unique<Commands::CameraBackward>();

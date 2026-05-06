@@ -44,7 +44,7 @@ void main()
 		vec3 worldNear = unproject(uMouseNDC, 0.0, invViewProj);
 		vec3 worldFar  = unproject(uMouseNDC, 1.0, invViewProj);
 		vec3 rayDir = normalize(worldFar - worldNear);
-		emitter.vel = vec4(rayDir, 1.0);
+		// emitter.vel = vec4(rayDir, 1.0);
 		emitter.pos.xyz = worldNear + rayDir * 50.0;
 	}
 }

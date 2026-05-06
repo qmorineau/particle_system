@@ -26,8 +26,6 @@ void Scene::update(float deltaTime, const vec2& mouseNDC)
 	(void) deltaTime;
 	_cameraGPU.setData(_camera, mouseNDC);
 	_cameraGPU.updateCameraUBO();
-	if (_newEmitter)
-		_newEmitter = false;
 };
 
 void Scene::accelerateTimeSpeed()
@@ -48,4 +46,9 @@ void Scene::slowTimeSpeed()
 		if (_timeSpeed < 0.f)
 			_timeSpeed = 0.f;
 	}
+};
+
+void Scene::changeColorMode()
+{
+	_colorMode = static_cast<ColorMode>((_colorMode + 1) % COUNT);
 };

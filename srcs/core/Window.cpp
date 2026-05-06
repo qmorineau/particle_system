@@ -68,6 +68,16 @@ void Window::manageTitle(Application& app)
 	_title.append(" - Gravity: " + gravityState);
 	std::string emitterState(app.scene()->getEmitter() ? "On" : "Off");
 	_title.append(" - Emitter: " + emitterState);
+	if (_isMouse && app.scene()->getTracking() != Scene::PosTracked::None)
+	{
+		std::string str;
+		Scene::PosTracked tmp = app.scene()->getTracking();
+		if (tmp == Scene::PosTracked::Gravity)
+			str = "Gravity";
+		else
+			str = "Emitter";
+		_title.append(" - [Moving: " + str + " position]");
+	}
 	glfwSetWindowTitle(_window, _title.c_str());
 }
 

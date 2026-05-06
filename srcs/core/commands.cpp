@@ -86,7 +86,7 @@ void Commands::AccelerateTime::execute(Application* app) const
 {
 	app->scene()->accelerateTimeSpeed();
 };
-void Commands::ShotEmitter::execute(Application* app) const
+void Commands::ChangeColorMode::execute(Application* app) const
 {
-	app->scene()->shotEmitter();
+	app->scene()->changeColorMode();
 };

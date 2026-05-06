@@ -18,7 +18,6 @@ void Simulation::simulate(const Scene& scene, const vec2& mouseNDC, float deltaT
 	_emitter.use();
 	_emitter.setVec2("mouse_pos", mouseNDC);
 	_emitter.setFloat("delta_time", deltaTime);
-	_emitter.setBool("new_emitter", scene.getNewEmitter());
 	_emitter.setFloat("time_speed", scene.getTimeSpeed());
 	_emitter.setBool("track_emitter", scene.getTracking() == Scene::PosTracked::Emitter ? true : false);
 	scene.emitter().compute(_emitter);
@@ -32,6 +31,7 @@ void Simulation::simulate(const Scene& scene, const vec2& mouseNDC, float deltaT
 	_update.setBool("track_gravity", scene.getTracking() == Scene::PosTracked::Gravity ? true : false);
 	_update.setVec2("mouse_pos", mouseNDC);
 	_update.setFloat("time_speed", scene.getTimeSpeed());
+	_update.setInt("color_mode", scene.getColorMode());
 	scene.particles().compute(_update);
 };
 

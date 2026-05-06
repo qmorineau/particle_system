@@ -17,6 +17,13 @@ class Scene
 			Gravity,
 			None
 		};
+		enum ColorMode
+		{
+			Mouse,
+			Grav,
+			Emit,
+			COUNT
+		};
 		Scene(unsigned int);
 		~Scene();
 
@@ -27,8 +34,8 @@ class Scene
 		void			toggleEmitter() {_isEmitter = !_isEmitter;};
 		void			accelerateTimeSpeed(); 
 		void			slowTimeSpeed();
-		void			shotEmitter() {_newEmitter = true;};
 		void			setTrackPos(PosTracked track) {_track = track;};
+		void			changeColorMode();
 
 		// getter
 		Camera&			camera() {return _camera;};
@@ -38,20 +45,20 @@ class Scene
 		int				getParticles() const {return _particles;};
 		bool			getGravity() const {return _isGravity;};
 		bool			getEmitter() const {return _isEmitter;};
-		bool			getNewEmitter() const {return _newEmitter;};
 		float			getTimeSpeed() const {return _timeSpeed;};
 		float			getLifespan() const {return _lifespan;};
 		PosTracked		getTracking() const {return _track;};
+		ColorMode		getColorMode() const {return _colorMode;};
 	private:
 		ParticlesGPU*	_particlesGPU;
 		EmitterGPU*		_emitterGPU;
 		CameraGPU		_cameraGPU;
 		unsigned int	_particles;
 		PosTracked		_track = None;
+		ColorMode		_colorMode = Mouse;
 		Camera			_camera;
 		bool			_isGravity = false;
-		bool			_isEmitter = false;
-		bool			_newEmitter = false;
+		bool			_isEmitter = false; 
 		float			_timeSpeed = 1.f;
 		float			_lifespan = 3.f;
 
