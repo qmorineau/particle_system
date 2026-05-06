@@ -1,0 +1,50 @@
+#version 430 core
+
+layout(local_size_x = 1) in;
+
+struct Emitter
+{
+	vec4 pos;
+	vec4 vel;
+};
+
+layout(std140, binding = 1) uniform CameraData {
+    mat4 uProjection;
+    mat4 uView;
+    vec3 uViewPos;
+    float _pad0;
+    vec2 uMouseNDC;
+    float uNear;
+    float uFar;
+};
+
+layout(std430, binding = 2) buffer EmitterBuff { Emitter emitter; };
+
+uniform int   new_emitter;
+uniform vec2  mouse_pos;
+uniform float delta_time;
+uniform float time_speed;
+uniform int   track_emitter;
+
+vec3 unproject(vec2 ndc, float depth, mat4 invViewProj)
+{
+    vec4 clip = vec4(ndc, depth, 1.0);
+    vec4 world = invViewProj * clip;
+    return world.xyz / world.w;
+}
+
+void main()
+{
+	mat4 invViewProj = inverse(uProjection * uView);
+
+	emitter.pos += emitter.vel * delta_time;
+
+	if (track_emitter == 1)
+	{
+		vec3 worldNear = unproject(uMouseNDC, 0.0, invViewProj);
+		vec3 worldFar  = unproject(uMouseNDC, 1.0, invViewProj);
+		vec3 rayDir = normalize(worldFar - worldNear);
+		emitter.vel = vec4(rayDir, 1.0);
+		emitter.pos.xyz = worldNear + rayDir * 50.0;
+	}
+}

@@ -35,35 +35,32 @@ void Application::renderLoop()
 	setShape(Simulation::Shape::Sphere);
 	while (!glfwWindowShouldClose(_window.getWindow()))
 	{
-		// Mouse
-		if (_inputContext.mouseMoved)
-			_inputHandler.handleMouseCallback(this, InputHandler::CommandID::CMD_MOUSE_MOVE);
-		if (_inputContext.mouseScrolled)
-			_inputHandler.handleMouseCallback(this, InputHandler::CommandID::CMD_MOUSE_SCROLL);
-
-		// Frame / Delta
-		float currentFrame = static_cast<float>(glfwGetTime());
-		_deltaTime = currentFrame - _lastFrame;
-		_lastFrame = currentFrame;
-
-		
-		_window.manageTitle(*this);
-		glfwSetKeyCallback(_window.getWindow(), InputManager::keyCallback);
-		_inputHandler.handleKeys(this);
-
 		// world space pos from mouse pos
 		vec2 NDC(
 			(2.0f * _inputContext.mousePos.x) / SCR_WIDTH - 1.0f,
 			1.0f - (2.0f * _inputContext.mousePos.y) / SCR_HEIGHT
 		); // Normal Device Coordinate
 		
-		_scene->update(_deltaTime, NDC);
-
+		// Mouse
+		if (_inputContext.mouseMoved)
+		_inputHandler.handleMouseCallback(this, InputHandler::CommandID::CMD_MOUSE_MOVE);
+		if (_inputContext.mouseScrolled)
+		_inputHandler.handleMouseCallback(this, InputHandler::CommandID::CMD_MOUSE_SCROLL);
+		_inputHandler.handleKeys(this);
+		
+		// Frame / Delta
+		float currentFrame = static_cast<float>(glfwGetTime());
+		_deltaTime = currentFrame - _lastFrame;
+		_lastFrame = currentFrame;
+		
+		// dynamic title
+		_window.manageTitle(*this);
+		
 		_simulation.simulate(*_scene, NDC, _deltaTime);
+		_scene->update(_deltaTime, NDC);
 		
 		_renderer.beginFrame();
 		_renderer.draw(_scene);
-
 		endFrame();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

@@ -77,6 +77,10 @@ namespace Commands
 	{
 		void execute(Application* app) const override;
 	};
+	class ShotEmitter : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
 };
 
 #endif

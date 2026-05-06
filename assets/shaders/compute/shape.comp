@@ -17,6 +17,7 @@ layout(std430, binding = 0) buffer Particles { Particle particles[]; };
 uniform int	particles_nbr;
 uniform int	is_cube;
 uniform int	is_sphere;
+uniform float life_span;
 
 float hash(uint x)
 {
@@ -59,7 +60,7 @@ void main()
 
 		particles[i].pos = vec4(p, 1.0);
 	}
-	particles[i].timeToDeath = 10.0 * hash(uint(i) + 999u);
+	particles[i].timeToDeath = life_span * hash(uint(i) + 999u);
 
 	particles[i].vel = vec4(0.0, 0.0, 0.0, 1.0);
 	particles[i].col = vec4(1, 1, 1, 1);

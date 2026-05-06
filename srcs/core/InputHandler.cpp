@@ -6,6 +6,7 @@ InputHandler::InputHandler()
 {
 	// Key Press
 	_eventMouseCommand[GLFW_MOUSE_BUTTON_LEFT] = std::make_unique<Commands::DisableMouse>();
+	_eventMouseCommand[GLFW_MOUSE_BUTTON_RIGHT] = std::make_unique<Commands::ShotEmitter>();
 	_eventMouseCommand[CMD_MOUSE_MOVE] = std::make_unique<Commands::MouseMove>();
 	_eventMouseCommand[CMD_MOUSE_SCROLL] = std::make_unique<Commands::MouseScroll>();
 	_eventKeyCommand[GLFW_KEY_ESCAPE] = std::make_unique<Commands::CloseWindow>();

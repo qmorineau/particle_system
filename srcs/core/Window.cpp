@@ -30,6 +30,7 @@ Window::Window(Application* app)
 	glfwSetCursorPosCallback(_window, InputManager::mouseCallback);
     glfwSetScrollCallback(_window, InputManager::scrollCallback);
 	glfwSetMouseButtonCallback(_window, InputManager::mouseButtonCallback);
+	glfwSetKeyCallback(_window, InputManager::keyCallback);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
@@ -59,8 +60,14 @@ void Window::manageTitle(Application& app)
 {
 	_title = "Particles System ";
 	float fps = 1.f / std::max(app.getDelta(), 0.0001f);
-	_title.append("[" + std::to_string(static_cast<int>(fps)) + " fps]");
-	_title.append(" - Speed: " + std::to_string(static_cast<int>(app.scene()->getTimeSpeed() * 100)) + "%");
+	std::string strFps = std::to_string(static_cast<int>(fps));
+	_title.append("[" + strFps + " fps]");
+	std::string speed = std::to_string(static_cast<int>(app.scene()->getTimeSpeed() * 100));
+	_title.append("	- Speed: " + speed + "%");
+	std::string gravityState(app.scene()->getGravity() ? "On" : "Off");
+	_title.append(" - Gravity: " + gravityState);
+	std::string emitterState(app.scene()->getEmitter() ? "On" : "Off");
+	_title.append(" - Emitter: " + emitterState);
 	glfwSetWindowTitle(_window, _title.c_str());
 }
 

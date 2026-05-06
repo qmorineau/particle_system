@@ -27,6 +27,7 @@ void Commands::EnableMouse::execute(Application* app) const
 };
 void Commands::DisableMouse::execute(Application* app) const
 {
+	app->scene()->setTrackPos(Scene::PosTracked::None);
 	app->getCamera().disableMouse();
 	glfwSetCursorPos(app->window().getWindow(), SCR_WIDTH / 2, SCR_HEIGHT / 2);
 	app->window().disableMouse();
@@ -67,10 +68,14 @@ void Commands::SetSphereShape::execute(Application* app) const
 // Simulation
 void Commands::ToggleGravity::execute(Application* app) const
 {
+	if (app->window().getMouse())
+		app->scene()->setTrackPos(Scene::PosTracked::Gravity);
 	app->scene()->toggleGravity();
 };
 void Commands::ToggleEmitter::execute(Application* app) const
 {
+	if (app->window().getMouse())
+		app->scene()->setTrackPos(Scene::PosTracked::Emitter);
 	app->scene()->toggleEmitter();
 };
 void Commands::SlowTime::execute(Application* app) const
@@ -80,4 +85,8 @@ void Commands::SlowTime::execute(Application* app) const
 void Commands::AccelerateTime::execute(Application* app) const
 {
 	app->scene()->accelerateTimeSpeed();
+};
+void Commands::ShotEmitter::execute(Application* app) const
+{
+	app->scene()->shotEmitter();
 };

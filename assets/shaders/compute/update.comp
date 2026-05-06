@@ -12,6 +12,8 @@ struct Particle
 	int isDead;
 };
 
+layout(std430, binding = 0) buffer Particles { Particle particles[]; };
+
 layout(std140, binding = 1) uniform CameraData {
     mat4 uProjection;
     mat4 uView;
@@ -22,18 +24,24 @@ layout(std140, binding = 1) uniform CameraData {
     float uFar;
 };
 
-layout(std430, binding = 0) buffer Particles { Particle particles[]; };
+struct Emitter
+{
+	vec4 pos;
+	vec4 vel;
+};
+
+layout(std430, binding = 2) buffer EmitterBuff { Emitter emitter; };
 
 uniform float delta_time;
 uniform int   particles_nbr;
 uniform int   gravity_on;
+uniform int   track_gravity;
 uniform int   emitter_on;
 uniform vec2  mouse_pos;
 uniform float life_span;
 uniform float time_speed;
 
 shared vec3 gravityPoint;
-shared vec3 emitterPoint;
 
 float hash(uint x)
 {
@@ -46,7 +54,7 @@ float hash(uint x)
 }
 
 
-vec3 calculate_velocity(uint i)
+void calculate_velocity(uint i)
 {
 	vec3 vel = particles[i].vel.xyz;
 
@@ -56,14 +64,11 @@ vec3 calculate_velocity(uint i)
 		float dist = length(dir);
 		vec3 normal_dir = normalize(dir);
 
-		// float G = 9.31;
-		float G = 1000;
-		// float G = 1600000;
+		float G = 9.31;
 		float force = G / (dist * dist + 0.001);
 		
-		vel += dir * force * delta_time;
+		particles[i].vel.xyz += dir * force * time_speed;
 	}
-	return vel * time_speed;
 }
 
 vec3 unproject(vec2 ndc, float depth, mat4 invViewProj)
@@ -76,14 +81,14 @@ vec3 unproject(vec2 ndc, float depth, mat4 invViewProj)
 vec3 calculate_color(uint i)
 {
 	float dGrav = distance(particles[i].pos.xyz, gravityPoint);
-	float dEmit = distance(particles[i].pos.xyz, emitterPoint);
+	float dEmit = distance(particles[i].pos.xyz, emitter.pos.xyz);
 	float tGrav = smoothstep(0.0, 50.0, dGrav);
 	float tEmit = smoothstep(0.0, 50.0, dEmit);
-	vec3 color = vec3(1.0 - tGrav, tEmit, tGrav);
+	vec3 color = vec3(1.0 - tGrav, 1.0 - tEmit, tEmit);
 	return color;
 }
 
-void emitter()
+void lifetimeUpdate()
 {
 	uint i = gl_GlobalInvocationID.x;
 	if (i >= particles_nbr)
@@ -99,7 +104,7 @@ void emitter()
 		particles[i].isDead = 0;
 		particles[i].lifeTime = life_span;
 		particles[i].timeToDeath = life_span;
-		particles[i].pos.xyz = emitterPoint;
+		particles[i].pos.xyz = emitter.pos.xyz;
 		float rx = hash(i * 123u) * 2.0 - 1;
         float ry = hash(i * 456u) * 2.0 - 1;
         float rz = hash(i * 789u) * 2.0 - 1;
@@ -109,20 +114,15 @@ void emitter()
 
 void main()
 {
-	if (gl_LocalInvocationID.x == 0) {
-		mat4 invViewProj = inverse(uProjection * uView);
-
-		vec3 worldNear = unproject(uMouseNDC, 0.0, invViewProj);
-		vec3 worldFar  = unproject(uMouseNDC, 1.0, invViewProj);
-		vec3 rayDir = normalize(worldFar - worldNear);
-
-		if (gravity_on == 1)
+	if (gl_LocalInvocationID.x == 0)
+	{
+		if (track_gravity == 1)
 		{
+			mat4 invViewProj = inverse(uProjection * uView);
+			vec3 worldNear = unproject(uMouseNDC, 0.0, invViewProj);
+			vec3 worldFar  = unproject(uMouseNDC, 1.0, invViewProj);
+			vec3 rayDir = normalize(worldFar - worldNear);
 			gravityPoint = worldNear + rayDir * 50.0;
-		}
-		else if (emitter_on == 1)
-		{
-			emitterPoint = worldNear + rayDir * 50.0;
 		}
 	}
 	barrier();
@@ -131,8 +131,8 @@ void main()
 		return;
 
 	if (emitter_on == 1)
-		emitter();
-	particles[i].vel.xyz = calculate_velocity(i);
-	particles[i].pos += particles[i].vel * delta_time;
+		lifetimeUpdate();
+	calculate_velocity(i);
+	particles[i].pos += particles[i].vel * delta_time * time_speed;
 	particles[i].col.xyz = calculate_color(i);
 }
