@@ -1,12 +1,15 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
+#include <memory>
+
 #include "Types.hpp"
 #include "Camera.hpp"
 #include "CameraGPU.hpp"
 
 class ParticlesGPU;
 class EmitterGPU;
+class GravityGPU;
 
 class Scene
 {
@@ -42,6 +45,7 @@ class Scene
 		const Camera&	camera() const {return _camera;};
 		ParticlesGPU&	particles() const {return *_particlesGPU;};
 		EmitterGPU&		emitter() const {return *_emitterGPU;};
+		GravityGPU&		gravity() const {return *_gravityGPU;};
 		int				getParticles() const {return _particles;};
 		bool			getGravity() const {return _isGravity;};
 		bool			getEmitter() const {return _isEmitter;};
@@ -50,9 +54,11 @@ class Scene
 		PosTracked		getTracking() const {return _track;};
 		ColorMode		getColorMode() const {return _colorMode;};
 	private:
-		ParticlesGPU*	_particlesGPU;
-		EmitterGPU*		_emitterGPU;
-		CameraGPU		_cameraGPU;
+		std::unique_ptr<ParticlesGPU>	_particlesGPU;
+		std::unique_ptr<EmitterGPU>		_emitterGPU;
+		std::unique_ptr<GravityGPU>		_gravityGPU;
+		CameraGPU						_cameraGPU;
+		
 		unsigned int	_particles;
 		PosTracked		_track = None;
 		ColorMode		_colorMode = Mouse;

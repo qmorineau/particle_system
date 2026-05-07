@@ -32,17 +32,21 @@ struct Emitter
 
 layout(std430, binding = 2) buffer EmitterBuff { Emitter emitter; };
 
+struct Gravity
+{
+	vec4 pos;
+};
+
+layout(std430, binding = 3) buffer GravityBuff { Gravity gravity; };
+
+
 uniform float delta_time;
 uniform int   particles_nbr;
 uniform int   gravity_on;
-uniform int   track_gravity;
 uniform int   emitter_on;
-uniform vec2  mouse_pos;
 uniform float life_span;
 uniform float time_speed;
 uniform int   color_mode;
-
-shared vec3 gravityPoint;
 
 const int COLOR_MODE_MOUSE = 0;
 const int COLOR_MODE_GRAVITY = 1;
@@ -65,7 +69,7 @@ void calculate_velocity(uint i)
 
 	if (gravity_on == 1)
 	{
-		vec3 dir = gravityPoint - particles[i].pos.xyz;
+		vec3 dir = gravity.pos.xyz - particles[i].pos.xyz;
 		float dist = length(dir);
 		vec3 normal_dir = normalize(dir);
 
@@ -85,10 +89,10 @@ vec3 unproject(vec2 ndc, float depth, mat4 invViewProj)
 
 vec3 calculate_color(uint i)
 {
-	float dGrav = distance(particles[i].pos.xyz, gravityPoint);
+	float dGrav = distance(particles[i].pos.xyz, gravity.pos.xyz);
 	float dEmit = distance(particles[i].pos.xyz, emitter.pos.xyz);
-	float tGrav = smoothstep(0.0, 75.0, dGrav);
-	float tEmit = smoothstep(0.0, 75.0, dEmit);
+	float tGrav = smoothstep(0.0, 150.0, dGrav);
+	float tEmit = smoothstep(0.0, 150.0, dEmit);
 
 	vec3 color;
 	switch (color_mode)
@@ -137,18 +141,6 @@ void lifetimeUpdate()
 
 void main()
 {
-	if (gl_LocalInvocationID.x == 0)
-	{
-		if (track_gravity == 1)
-		{
-			mat4 invViewProj = inverse(uProjection * uView);
-			vec3 worldNear = unproject(uMouseNDC, 0.0, invViewProj);
-			vec3 worldFar  = unproject(uMouseNDC, 1.0, invViewProj);
-			vec3 rayDir = normalize(worldFar - worldNear);
-			gravityPoint = worldNear + rayDir * 50.0;
-		}
-	}
-	barrier();
 	uint i = gl_GlobalInvocationID.x;
 	if (i >= particles_nbr)
 		return;

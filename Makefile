@@ -4,7 +4,7 @@ CC = cc
 
 # Flags
 CFLAGS = -Wall -Wextra -Werror
-CPPFLAGS = -Wall -Wextra -Werror -MMD -g -std=c++17 #-fsanitize=address
+CPPFLAGS = -Wall -Wextra -Werror -MMD -g -std=c++17 -fsanitize=address
 
 # Project Paths
 SRC_DIR = srcs
@@ -77,7 +77,7 @@ $(GLFW_LIB): $(GLFW_SUBMODULE_OK)
 	@cd $(GLFW_BUILD_DIR) && make -j$(shell nproc)
 
 test: all
-	./$(NAME) 4
+	./$(NAME) 100000
 
 .PHONY: all re clean fclean submodules test
 

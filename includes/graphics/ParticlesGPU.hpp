@@ -4,21 +4,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "dataTypes.hpp"
 #include "Shader.hpp"
 
 class ParticlesGPU
 {
 	public:
-		struct Particle
-		{
-			vec4 	position;
-			vec4 	velocity;
-			vec4 	color;
-			float	lifeTime;
-			float	timeToDeath;
-			int		isDead;
-			int		aligned;
-		}; // need to be 16 bytes aligned for glsl 430
 		ParticlesGPU(unsigned long);
 		~ParticlesGPU();
 

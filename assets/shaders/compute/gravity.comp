@@ -12,17 +12,17 @@ layout(std140, binding = 1) uniform CameraData {
     float uFar;
 };
 
-struct Emitter
+struct Gravity
 {
 	vec4 pos;
 };
 
-layout(std430, binding = 2) buffer EmitterBuff { Emitter emitter; };
+layout(std430, binding = 3) buffer GravityBuff { Gravity gravity; };
 
 uniform vec2  mouse_pos;
 uniform float delta_time;
 uniform float time_speed;
-uniform int   track_emitter;
+uniform int   track_gravity;
 
 vec3 unproject(vec2 ndc, float depth, mat4 invViewProj)
 {
@@ -35,11 +35,11 @@ void main()
 {
 	mat4 invViewProj = inverse(uProjection * uView);
 
-	if (track_emitter == 1)
+	if (track_gravity == 1)
 	{
 		vec3 worldNear = unproject(uMouseNDC, 0.0, invViewProj);
 		vec3 worldFar  = unproject(uMouseNDC, 1.0, invViewProj);
 		vec3 rayDir = normalize(worldFar - worldNear);
-		emitter.pos.xyz = worldNear + rayDir * 50.0;
+		gravity.pos.xyz = worldNear + rayDir * 50.0;
 	}
 }

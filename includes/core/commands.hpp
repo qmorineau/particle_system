@@ -81,6 +81,14 @@ namespace Commands
 	{
 		void execute(Application* app) const override;
 	};
+	class MoveGravity : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
+	class MoveEmitter : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
 };
 
 #endif

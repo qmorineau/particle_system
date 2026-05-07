@@ -1,5 +1,5 @@
-#ifndef EMITTERGPU_HPP
-#define EMITTERGPU_HPP
+#ifndef GRAVITYGPU_HPP
+#define GRAVITYGPU_HPP
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -8,15 +8,15 @@
 #include "dataTypes.hpp"
 #include "Shader.hpp"
 
-class EmitterGPU
+class GravityGPU
 {
 	public:
-		EmitterGPU();
-		~EmitterGPU();
+		GravityGPU();
+		~GravityGPU();
 
 		void compute(const Shader&) const;
 	private:
-		TypedSSBO<Emitter>	_ssbo;
+		TypedSSBO<Gravity>	_ssbo;
 };
 
 #endif

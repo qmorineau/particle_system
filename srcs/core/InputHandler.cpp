@@ -14,6 +14,8 @@ InputHandler::InputHandler()
 	_eventKeyCommand[GLFW_KEY_E] = std::make_unique<Commands::ToggleEmitter>();
 	_eventKeyCommand[GLFW_KEY_1] = std::make_unique<Commands::SetCubeShape>();
 	_eventKeyCommand[GLFW_KEY_2] = std::make_unique<Commands::SetSphereShape>();
+	_eventKeyCommand[GLFW_KEY_0] = std::make_unique<Commands::MoveEmitter>();
+	_eventKeyCommand[GLFW_KEY_9] = std::make_unique<Commands::MoveGravity>();
 	_eventKeyCommand[GLFW_KEY_R] = std::make_unique<Commands::CameraReset>();
 	_eventKeyCommand[GLFW_KEY_C] = std::make_unique<Commands::ChangeColorMode>();
 	// Repeat Key

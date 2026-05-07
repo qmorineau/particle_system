@@ -40,7 +40,7 @@ void Application::renderLoop()
 			(2.0f * _inputContext.mousePos.x) / SCR_WIDTH - 1.0f,
 			1.0f - (2.0f * _inputContext.mousePos.y) / SCR_HEIGHT
 		); // Normal Device Coordinate
-		
+
 		// Mouse
 		if (_inputContext.mouseMoved)
 		_inputHandler.handleMouseCallback(this, InputHandler::CommandID::CMD_MOUSE_MOVE);

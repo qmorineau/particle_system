@@ -68,8 +68,6 @@ void Commands::SetSphereShape::execute(Application* app) const
 // Simulation
 void Commands::ToggleGravity::execute(Application* app) const
 {
-	if (app->window().getMouse())
-		app->scene()->setTrackPos(Scene::PosTracked::Gravity);
 	app->scene()->toggleGravity();
 };
 void Commands::ToggleEmitter::execute(Application* app) const
@@ -89,4 +87,24 @@ void Commands::AccelerateTime::execute(Application* app) const
 void Commands::ChangeColorMode::execute(Application* app) const
 {
 	app->scene()->changeColorMode();
+};
+void Commands::MoveGravity::execute(Application* app) const
+{
+	if (app->window().getMouse())
+	{
+		if (app->scene()->getTracking() == Scene::PosTracked::Gravity)
+			app->scene()->setTrackPos(Scene::PosTracked::None);
+		else
+			app->scene()->setTrackPos(Scene::PosTracked::Gravity);
+	}
+};
+void Commands::MoveEmitter::execute(Application* app) const
+{
+	if (app->window().getMouse())
+	{
+		if (app->scene()->getTracking() == Scene::PosTracked::Emitter)
+			app->scene()->setTrackPos(Scene::PosTracked::None);
+		else
+			app->scene()->setTrackPos(Scene::PosTracked::Emitter);
+	}
 };

@@ -1,25 +1,19 @@
 #include "Scene.hpp"
 #include "ParticlesGPU.hpp"
 #include "EmitterGPU.hpp"
+#include "GravityGPU.hpp"
 #include "Window.hpp"
 
 Scene::Scene(unsigned int particles) :
-	_particlesGPU(nullptr),
-	_emitterGPU(nullptr),
 	_particles(particles),
 	_camera(SCR_WIDTH, SCR_HEIGHT)
 {
-	_particlesGPU = new ParticlesGPU(_particles);
-	_emitterGPU = new EmitterGPU();
+	_particlesGPU = std::make_unique<ParticlesGPU>(_particles);
+	_emitterGPU = std::make_unique<EmitterGPU>();
+	_gravityGPU = std::make_unique<GravityGPU>();
 }
 
-Scene::~Scene()
-{
-	if (_particlesGPU)
-		delete _particlesGPU;
-	if (_emitterGPU)
-		delete _emitterGPU;
-}
+Scene::~Scene() {}
 
 void Scene::update(float deltaTime, const vec2& mouseNDC)
 {

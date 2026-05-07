@@ -1,12 +1,12 @@
-#include "EmitterGPU.hpp"
+#include "GravityGPU.hpp"
 
-EmitterGPU::EmitterGPU()
+GravityGPU::GravityGPU()
 	: _ssbo(1)
 {};
 
-EmitterGPU::~EmitterGPU() {};
+GravityGPU::~GravityGPU() {};
 
-void EmitterGPU::compute(const Shader& shader) const
+void GravityGPU::compute(const Shader& shader) const
 {
 	_ssbo.bind();
 	shader.use();
