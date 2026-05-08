@@ -27,7 +27,6 @@ layout(std140, binding = 1) uniform CameraData {
 struct Emitter
 {
 	vec4 pos;
-	vec4 vel;
 };
 
 layout(std430, binding = 2) buffer EmitterBuff { Emitter emitter; };
@@ -47,6 +46,8 @@ uniform int   emitter_on;
 uniform float life_span;
 uniform float time_speed;
 uniform int   color_mode;
+uniform int   track_mouse;
+
 
 const int COLOR_MODE_MOUSE = 0;
 const int COLOR_MODE_GRAVITY = 1;
@@ -98,10 +99,13 @@ vec3 calculate_color(uint i)
 	switch (color_mode)
 	{
 		case COLOR_MODE_MOUSE:
+			vec2 mouseNDC = vec2(0, 0);
+			if (track_mouse == 1)
+				mouseNDC = uMouseNDC;
 			vec4 world = vec4(particles[i].pos.xyz, 1.0f);
 			vec4 clip = uProjection * uView * world;
 			vec3 ndc = vec3(clip) / clip.w;
-			float d = length(ndc.xy - uMouseNDC);
+			float d = length(ndc.xy - mouseNDC);
 			float t = clamp(d * 0.5, 0.0, 1.0);
 			color = vec3(t, 1.0 - t, 0.5 - t);
 			break;

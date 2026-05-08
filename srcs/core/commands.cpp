@@ -23,6 +23,7 @@ void Commands::MouseScroll::execute(Application* app) const
 };
 void Commands::EnableMouse::execute(Application* app) const
 {
+	app->scene()->setTrackPos(Scene::PosTracked::Mouse);
 	app->window().enableMouse();
 };
 void Commands::DisableMouse::execute(Application* app) const
@@ -93,7 +94,7 @@ void Commands::MoveGravity::execute(Application* app) const
 	if (app->window().getMouse())
 	{
 		if (app->scene()->getTracking() == Scene::PosTracked::Gravity)
-			app->scene()->setTrackPos(Scene::PosTracked::None);
+			app->scene()->setTrackPos(Scene::PosTracked::Mouse);
 		else
 			app->scene()->setTrackPos(Scene::PosTracked::Gravity);
 	}
@@ -103,7 +104,7 @@ void Commands::MoveEmitter::execute(Application* app) const
 	if (app->window().getMouse())
 	{
 		if (app->scene()->getTracking() == Scene::PosTracked::Emitter)
-			app->scene()->setTrackPos(Scene::PosTracked::None);
+			app->scene()->setTrackPos(Scene::PosTracked::Mouse);
 		else
 			app->scene()->setTrackPos(Scene::PosTracked::Emitter);
 	}

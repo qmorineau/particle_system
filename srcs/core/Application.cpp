@@ -56,7 +56,7 @@ void Application::renderLoop()
 		// dynamic title
 		_window.manageTitle(*this);
 		
-		_simulation.simulate(*_scene, NDC, _deltaTime);
+		_simulation.simulate(*_scene, _deltaTime);
 		_scene->update(_deltaTime, NDC);
 		
 		_renderer.beginFrame();

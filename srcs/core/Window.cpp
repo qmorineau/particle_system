@@ -68,7 +68,7 @@ void Window::manageTitle(Application& app)
 	_title.append(" - Gravity: " + gravityState);
 	std::string emitterState(app.scene()->getEmitter() ? "On" : "Off");
 	_title.append(" - Emitter: " + emitterState);
-	if (_isMouse && app.scene()->getTracking() != Scene::PosTracked::None)
+	if (_isMouse && app.scene()->getTracking() != Scene::PosTracked::None && app.scene()->getTracking() != Scene::PosTracked::Mouse)
 	{
 		std::string str;
 		Scene::PosTracked tmp = app.scene()->getTracking();

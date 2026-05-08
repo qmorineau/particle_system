@@ -18,13 +18,14 @@ class Scene
 		{
 			Emitter,
 			Gravity,
+			Mouse,
 			None
 		};
 		enum ColorMode
 		{
-			Mouse,
-			Grav,
-			Emit,
+			m_Mouse,
+			m_Gravity,
+			m_Emitter,
 			COUNT
 		};
 		Scene(unsigned int);
@@ -61,7 +62,7 @@ class Scene
 		
 		unsigned int	_particles;
 		PosTracked		_track = None;
-		ColorMode		_colorMode = Mouse;
+		ColorMode		_colorMode = m_Mouse;
 		Camera			_camera;
 		bool			_isGravity = false;
 		bool			_isEmitter = false; 

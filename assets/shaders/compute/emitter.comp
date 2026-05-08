@@ -19,7 +19,6 @@ struct Emitter
 
 layout(std430, binding = 2) buffer EmitterBuff { Emitter emitter; };
 
-uniform vec2  mouse_pos;
 uniform float delta_time;
 uniform float time_speed;
 uniform int   track_emitter;
