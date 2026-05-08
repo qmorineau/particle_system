@@ -26,6 +26,8 @@ INCLUDES = -I $(INC_DIR) \
 			-I $(INC_DIR)/graphics \
 			-I $(INC_DIR)/math \
 			-I $(INC_DIR)/utils \
+			-I $(INC_DIR)/input \
+			-I $(INC_DIR)/simulation \
 			-I $(GLAD_DIR)/include \
 			-I $(GLFW_DIR)/include
 

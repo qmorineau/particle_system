@@ -1,5 +1,4 @@
 #include "Window.hpp"
-#include "Application.hpp"
 #include "InputManager.hpp"
 
 Window::Window(Application* app)
@@ -56,29 +55,9 @@ Window::~Window()
 	glfwTerminate();
 }
 
-void Window::manageTitle(Application& app)
+void Window::manageTitle(std::string title)
 {
-	_title = "Particles System ";
-	float fps = 1.f / std::max(app.getDelta(), 0.0001f);
-	std::string strFps = std::to_string(static_cast<int>(fps));
-	_title.append("[" + strFps + " fps]");
-	std::string speed = std::to_string(static_cast<int>(app.scene()->getTimeSpeed() * 100));
-	_title.append("	- Speed: " + speed + "%");
-	std::string gravityState(app.scene()->getGravity() ? "On" : "Off");
-	_title.append(" - Gravity: " + gravityState);
-	std::string emitterState(app.scene()->getEmitter() ? "On" : "Off");
-	_title.append(" - Emitter: " + emitterState);
-	if (_isMouse && app.scene()->getTracking() != Scene::PosTracked::None && app.scene()->getTracking() != Scene::PosTracked::Mouse)
-	{
-		std::string str;
-		Scene::PosTracked tmp = app.scene()->getTracking();
-		if (tmp == Scene::PosTracked::Gravity)
-			str = "Gravity";
-		else
-			str = "Emitter";
-		_title.append(" - [Moving: " + str + " position]");
-	}
-	glfwSetWindowTitle(_window, _title.c_str());
+	glfwSetWindowTitle(_window, title.c_str());
 }
 
 void Window::framebufferSizeCallback(GLFWwindow* window, int width, int height)

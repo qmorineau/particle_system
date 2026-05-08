@@ -1,8 +1,4 @@
 #include "Renderer.hpp"
-#include "Matrix4.hpp"
-#include "Math.hpp"
-#include "Scene.hpp"
-#include "Camera.hpp"
 #include "ParticlesGPU.hpp"
 
 Renderer::Renderer() :
@@ -17,13 +13,13 @@ void Renderer::beginFrame()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::draw(Scene* scene)
+void Renderer::draw(const ParticlesGPU& particles)
 {
 	// Use shader
     _render.use();
 
 	// Draw
-	scene->particles().bindVAO();
-	glDrawArrays(GL_POINTS, 0, scene->getParticles());
+	particles.bindVAO();
+	glDrawArrays(GL_POINTS, 0, particles.count());
 }
 

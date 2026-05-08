@@ -12,7 +12,7 @@ void Commands::MouseMove::execute(Application* app) const
 	if (!app->window().getMouse())
 	{	
 		InputContext& ctx = app->inputContext();
-		app->scene()->camera().onMouseMove(ctx.mousePos.x, ctx.mousePos.y);
+		app->scene().camera().onMouseMove(ctx.mousePos.x, ctx.mousePos.y);
 	}
 };
 
@@ -23,12 +23,12 @@ void Commands::MouseScroll::execute(Application* app) const
 };
 void Commands::EnableMouse::execute(Application* app) const
 {
-	app->scene()->setTrackPos(Scene::PosTracked::Mouse);
+	app->scene().simulationState().setMouseTarget(SimulationState::MouseTarget::Free);
 	app->window().enableMouse();
 };
 void Commands::DisableMouse::execute(Application* app) const
 {
-	app->scene()->setTrackPos(Scene::PosTracked::None);
+	app->scene().simulationState().setMouseTarget(SimulationState::MouseTarget::Camera);
 	app->getCamera().disableMouse();
 	glfwSetCursorPos(app->window().getWindow(), SCR_WIDTH / 2, SCR_HEIGHT / 2);
 	app->window().disableMouse();
@@ -69,43 +69,43 @@ void Commands::SetSphereShape::execute(Application* app) const
 // Simulation
 void Commands::ToggleGravity::execute(Application* app) const
 {
-	app->scene()->toggleGravity();
+	app->scene().simulationState().toggleGravity();
 };
 void Commands::ToggleEmitter::execute(Application* app) const
 {
 	if (app->window().getMouse())
-		app->scene()->setTrackPos(Scene::PosTracked::Emitter);
-	app->scene()->toggleEmitter();
+		app->scene().simulationState().setMouseTarget(SimulationState::MouseTarget::Emitter);
+	app->scene().simulationState().toggleEmitter();
 };
 void Commands::SlowTime::execute(Application* app) const
 {
-	app->scene()->slowTimeSpeed();
+	app->scene().simulationState().slowTimeSpeed();
 };
 void Commands::AccelerateTime::execute(Application* app) const
 {
-	app->scene()->accelerateTimeSpeed();
+	app->scene().simulationState().accelerateTimeSpeed();
 };
 void Commands::ChangeColorMode::execute(Application* app) const
 {
-	app->scene()->changeColorMode();
+	app->scene().simulationState().changeColorMode();
 };
 void Commands::MoveGravity::execute(Application* app) const
 {
 	if (app->window().getMouse())
 	{
-		if (app->scene()->getTracking() == Scene::PosTracked::Gravity)
-			app->scene()->setTrackPos(Scene::PosTracked::Mouse);
+		if (app->scene().simulationState().mouseTarget() == SimulationState::MouseTarget::Gravity)
+			app->scene().simulationState().setMouseTarget(SimulationState::MouseTarget::Free);
 		else
-			app->scene()->setTrackPos(Scene::PosTracked::Gravity);
+			app->scene().simulationState().setMouseTarget(SimulationState::MouseTarget::Gravity);
 	}
 };
 void Commands::MoveEmitter::execute(Application* app) const
 {
 	if (app->window().getMouse())
 	{
-		if (app->scene()->getTracking() == Scene::PosTracked::Emitter)
-			app->scene()->setTrackPos(Scene::PosTracked::Mouse);
+		if (app->scene().simulationState().mouseTarget() == SimulationState::MouseTarget::Emitter)
+			app->scene().simulationState().setMouseTarget(SimulationState::MouseTarget::Free);
 		else
-			app->scene()->setTrackPos(Scene::PosTracked::Emitter);
+			app->scene().simulationState().setMouseTarget(SimulationState::MouseTarget::Emitter);
 	}
 };

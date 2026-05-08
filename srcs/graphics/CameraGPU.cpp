@@ -28,10 +28,10 @@ void CameraGPU::updateCameraUBO()
 
 void CameraGPU::setData(const Camera& camera, const vec2 mouseNDC)
 {
-	_data.projection = mat4::perspective(math::radians(camera.getZoom()), camera.getAspectRatio(), camera.getNear(), camera.getFar());
-	_data.view = camera.getViewMatrix();
-	_data.viewPos = camera.getPosition();
+	_data.projection = mat4::perspective(math::radians(camera.zoom()), camera.aspectRatio(), camera.near(), camera.far());
+	_data.view = camera.viewMatrix();
+	_data.viewPos = camera.position();
 	_data.mouseNDC = mouseNDC;
-	_data.nearPlan = camera.getNear();
-	_data.farPlan = camera.getFar();
+	_data.nearPlan = camera.near();
+	_data.farPlan = camera.far();
 }

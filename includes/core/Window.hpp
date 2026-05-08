@@ -2,7 +2,6 @@
 #define WINDOW_HPP
 
 #include <string>
-#include <algorithm>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h> 
@@ -35,7 +34,7 @@ class Window
 		Window(Application*);
 		~Window();
 		// Method
-		void 		manageTitle(Application& app);
+		void 		manageTitle(std::string title);
 		static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 		void 		closeWindow();
 		void		enableMouse();

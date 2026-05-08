@@ -12,15 +12,11 @@ Application::Application(char* arg) :
 		if (tmp > 0)
 			particles = tmp;
 	}
-	_scene = new Scene(particles);
+	_scene = std::make_unique<Scene>(particles);
 }
 		
 
-Application::~Application()
-{
-	if (_scene)
-		delete _scene;
-}
+Application::~Application() {}
 
 void Application::run()
 {		
@@ -35,12 +31,6 @@ void Application::renderLoop()
 	setShape(Simulation::Shape::Sphere);
 	while (!glfwWindowShouldClose(_window.getWindow()))
 	{
-		// world space pos from mouse pos
-		vec2 NDC(
-			(2.0f * _inputContext.mousePos.x) / SCR_WIDTH - 1.0f,
-			1.0f - (2.0f * _inputContext.mousePos.y) / SCR_HEIGHT
-		); // Normal Device Coordinate
-
 		// Mouse
 		if (_inputContext.mouseMoved)
 		_inputHandler.handleMouseCallback(this, InputHandler::CommandID::CMD_MOUSE_MOVE);
@@ -54,13 +44,13 @@ void Application::renderLoop()
 		_lastFrame = currentFrame;
 		
 		// dynamic title
-		_window.manageTitle(*this);
+		_window.manageTitle(buildTitle());
 		
-		_simulation.simulate(*_scene, _deltaTime);
-		_scene->update(_deltaTime, NDC);
+		_simulation.simulate(_scene->simulationState(), _scene->particleSystem(), _deltaTime);
+		_scene->update(_deltaTime, _inputContext.ndc);
 		
 		_renderer.beginFrame();
-		_renderer.draw(_scene);
+		_renderer.draw(_scene->particleSystem().particles());
 		endFrame();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -81,5 +71,33 @@ void Application::endFrame()
 
 void Application::setShape(Simulation::Shape shape)
 {
-	_simulation.setShape(*_scene, shape);
+	_simulation.setShape(_scene->simulationState(), _scene->particleSystem(), shape);
+}
+
+std::string Application::buildTitle()
+{
+	std::string title = "Particles System ";
+	const SimulationState& state = scene().simulationState();
+	float fps = 1.f / std::max(_deltaTime, 0.0001f);
+	std::string strFps = std::to_string(static_cast<int>(fps));
+	title.append("[" + strFps + " fps]");
+	std::string speed = std::to_string(static_cast<int>(state.timeSpeed() * 100));
+	title.append("	- Speed: " + speed + "%");
+	std::string gravityState(state.isGravity() ? "On" : "Off");
+	title.append(" - Gravity: " + gravityState);
+	std::string emitterState(state.isEmitter() ? "On" : "Off");
+	title.append(" - Emitter: " + emitterState);
+	if (_window.getMouse() 
+		&& state.mouseTarget() != SimulationState::MouseTarget::Camera 
+		&& state.mouseTarget() != SimulationState::MouseTarget::Free)
+	{
+		std::string str;
+		SimulationState::MouseTarget tmp = state.mouseTarget();
+		if (tmp == SimulationState::MouseTarget::Gravity)
+			str = "Gravity";
+		else
+			str = "Emitter";
+		title.append(" - [Moving: " + str + " position]");
+	}
+	return title;
 }

@@ -29,6 +29,10 @@ void InputManager::mouseCallback(GLFWwindow* window, double xposIn, double yposI
 		ctx.mouseMoved = true;
 		ctx.mousePos.x = xposIn;
 		ctx.mousePos.y = yposIn;
+		ctx.ndc = vec2(
+			(2.0f * xposIn) / SCR_WIDTH - 1.0f,
+			1.0f - (2.0f * yposIn) / SCR_HEIGHT
+		);
 	}
 }
 

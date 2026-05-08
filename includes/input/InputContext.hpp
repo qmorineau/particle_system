@@ -11,6 +11,7 @@ struct InputContext
 	bool	mouseMoved = false;
 	vec2	mouseOffset;
 	bool	mouseScrolled = false;
+	vec2	ndc; // normalize device coordinate
 };
 
 #endif

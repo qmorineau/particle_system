@@ -1,9 +1,6 @@
 #ifndef DATATYPES_HPP
 #define DATATYPES_HPP
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 #include "Types.hpp"
 
 // each struct need to be 16 bytes aligned for glsl 430
@@ -18,21 +15,21 @@ struct Particle
 	int		isDead;
 	int		aligned;
 
-	static constexpr GLuint binding = 0;
+	static constexpr unsigned int binding = 0;
 };
 
 struct Emitter
 {
 	vec4 positions;
 
-	static constexpr GLuint binding = 2;
+	static constexpr unsigned int binding = 2;
 };
 
 struct Gravity
 {
 	vec4 positions;
 
-	static constexpr GLuint binding = 3;
+	static constexpr unsigned int binding = 3;
 };
 
 #endif
