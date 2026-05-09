@@ -47,8 +47,6 @@ void Simulation::setUpdate(const SimulationState& state, const ParticleSystem& p
 	_update.setBool("emitter_on", state.isEmitter());
 	_update.setBool("gravity_on", state.isGravity());
 	_update.setFloat("time_speed", state.timeSpeed());
-	_update.setInt("color_mode", static_cast<int>(state.colorMode()));
-	_update.setBool("track_mouse", state.mouseTarget() == SimulationState::MouseTarget::Camera ? false : true);
 	ps.particles().compute(_update);
 };
 

@@ -45,13 +45,6 @@ uniform int   gravity_on;
 uniform int   emitter_on;
 uniform float life_span;
 uniform float time_speed;
-uniform int   color_mode;
-uniform int   track_mouse;
-
-
-const int COLOR_MODE_MOUSE = 0;
-const int COLOR_MODE_GRAVITY = 1;
-const int COLOR_MODE_EMITTER = 2;
 
 float hash(uint x)
 {
@@ -62,7 +55,6 @@ float hash(uint x)
     x ^= x >> 16;
     return float(x) / float(0xffffffffu);
 }
-
 
 void calculate_velocity(uint i)
 {
@@ -88,37 +80,6 @@ vec3 unproject(vec2 ndc, float depth, mat4 invViewProj)
     return world.xyz / world.w;
 }
 
-vec3 calculate_color(uint i)
-{
-	float dGrav = distance(particles[i].pos.xyz, gravity.pos.xyz);
-	float dEmit = distance(particles[i].pos.xyz, emitter.pos.xyz);
-	float tGrav = smoothstep(0.0, 150.0, dGrav);
-	float tEmit = smoothstep(0.0, 150.0, dEmit);
-
-	vec3 color;
-	switch (color_mode)
-	{
-		case COLOR_MODE_MOUSE:
-			vec2 mouseNDC = vec2(0, 0);
-			if (track_mouse == 1)
-				mouseNDC = uMouseNDC;
-			vec4 world = vec4(particles[i].pos.xyz, 1.0f);
-			vec4 clip = uProjection * uView * world;
-			vec3 ndc = vec3(clip) / clip.w;
-			float d = length(ndc.xy - mouseNDC);
-			float t = clamp(d * 0.5, 0.0, 1.0);
-			color = vec3(t, 1.0 - t, 0.5 - t);
-			break;
-		case COLOR_MODE_GRAVITY:
-			color = vec3(1.0 - tGrav, 0.35 - tGrav, 0.35 - tGrav);
-			break;
-		case COLOR_MODE_EMITTER:
-			color = vec3(0.75 - tEmit, 1.0 - tEmit, 0.75 - tEmit);
-			break;
-	}
-	return color;
-}
-
 void lifetimeUpdate()
 {
 	uint i = gl_GlobalInvocationID.x;
@@ -126,14 +87,17 @@ void lifetimeUpdate()
 		return;
 	
 	if (emitter_on == 1)
+	{
 		particles[i].timeToDeath -= delta_time * time_speed;
+		particles[i].lifeTime += delta_time * time_speed;
+	}
 	if (particles[i].timeToDeath <= 0)
 		particles[i].isDead = 1;
 
 	if (particles[i].isDead == 1)
 	{
 		particles[i].isDead = 0;
-		particles[i].lifeTime = life_span;
+		particles[i].lifeTime = 0;
 		particles[i].timeToDeath = life_span;
 		particles[i].pos.xyz = emitter.pos.xyz;
 		float rx = hash(i * 123u) * 2.0 - 1;
@@ -153,5 +117,4 @@ void main()
 		lifetimeUpdate();
 	calculate_velocity(i);
 	particles[i].pos += particles[i].vel * delta_time * time_speed;
-	particles[i].col.xyz = calculate_color(i);
 }

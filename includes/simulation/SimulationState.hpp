@@ -16,6 +16,7 @@ class SimulationState
 			Mouse,
 			Gravity,
 			Emitter,
+			Fire,
 			COUNT
 		};
 		SimulationState();

@@ -6,7 +6,8 @@
 
 #include "Shader.hpp"
 
-class ParticlesGPU;
+class ParticleSystem;
+class SimulationState;
 
 class Renderer
 {
@@ -15,7 +16,7 @@ class Renderer
 		~Renderer();
 
 		void beginFrame();
-		void draw(const ParticlesGPU& p);
+		void draw(const SimulationState& state, const ParticleSystem& p);
 	private:
 		Shader	_render;
 };

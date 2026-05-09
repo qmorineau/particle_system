@@ -50,7 +50,7 @@ void Application::renderLoop()
 		_scene->update(_deltaTime, _inputContext.ndc);
 		
 		_renderer.beginFrame();
-		_renderer.draw(_scene->particleSystem().particles());
+		_renderer.draw(_scene->simulationState(), _scene->particleSystem());
 		endFrame();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

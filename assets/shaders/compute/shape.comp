@@ -35,7 +35,6 @@ void main()
 	if (i >= particles_nbr)
 		return;
 
-	// Génération pseudo-aléatoire basée sur l'indice i
 	float rx = hash(i * 123u);
 	float ry = hash(i * 456u);
 	float rz = hash(i * 789u);
@@ -44,7 +43,6 @@ void main()
 	if (is_cube == 1 || is_sphere == 1)
 	{
 		float half_size = size / 2;
-		// Position dans un cube [-1, 1]
 		particles[i].pos = vec4(rx * size - half_size,
 								ry * size - half_size,
 								rz * size - half_size,
@@ -55,12 +53,12 @@ void main()
 		vec3 p = vec3(particles[i].pos.x,
 					particles[i].pos.y,
 					particles[i].pos.z);
-		p = normalize(p);
-		p *= size;	
-
-		particles[i].pos = vec4(p, 1.0);
+		vec3 dir = normalize(p);
+		float radius = size * pow(hash(i * 321u), 1.0 / 3.0);
+		particles[i].pos = vec4(dir * radius, 1.0);
 	}
 	particles[i].timeToDeath = life_span * hash(uint(i) + 999u);
+	particles[i].lifeTime = life_span - particles[i].timeToDeath;
 
 	particles[i].vel = vec4(0.0, 0.0, 0.0, 1.0);
 	particles[i].col = vec4(1, 1, 1, 1);
