@@ -89,6 +89,14 @@ namespace Commands
 	{
 		void execute(Application* app) const override;
 	};
+	class AddParticles : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
+	class RemoveParticles : public ICommand
+	{
+		void execute(Application* app) const override;
+	};
 };
 
 #endif

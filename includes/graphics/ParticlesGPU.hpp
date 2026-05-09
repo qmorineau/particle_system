@@ -15,12 +15,10 @@ class ParticlesGPU
 
 		void compute(const Shader&) const;
 		void bindVAO() const;
-
-		unsigned long count() const {return _particles;};
 	private:
-		unsigned long   _particles;
-		GLuint          _vao = 0;
-		GLuint          _ssbo = 0;
+		unsigned int   		_particles;
+		GLuint          	_vao = 0;
+		GLuint          	_ssbo = 0;
 
 		void createVAO();
 		void createSSBO();

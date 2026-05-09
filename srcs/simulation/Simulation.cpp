@@ -43,7 +43,8 @@ void Simulation::setUpdate(const SimulationState& state, const ParticleSystem& p
 	_update.use();
 	_update.setFloat("life_span", state.lifespan());
 	_update.setFloat("delta_time", deltaTime);
-	_update.setInt("particles_nbr", ps.particles().count());
+	_update.setInt("particles_nbr", state.count());
+	_update.setInt("max_particles_nbr", state.maxParticles());
 	_update.setBool("emitter_on", state.isEmitter());
 	_update.setBool("gravity_on", state.isGravity());
 	_update.setFloat("time_speed", state.timeSpeed());
@@ -64,7 +65,7 @@ void Simulation::setShape(const SimulationState& state, const ParticleSystem& ps
 			_shape.setBool("is_sphere", true);
 			break;
 	}
-	_shape.setInt("particles_nbr", ps.particles().count());
+	_shape.setInt("particles_nbr", state.count());
 	_shape.setFloat("life_span", state.lifespan());
 	ps.particles().compute(_shape);
 };

@@ -109,3 +109,11 @@ void Commands::MoveEmitter::execute(Application* app) const
 			app->scene().simulationState().setMouseTarget(SimulationState::MouseTarget::Emitter);
 	}
 };
+void Commands::AddParticles::execute(Application* app) const
+{
+	app->scene().simulationState().addParticles();
+};
+void Commands::RemoveParticles::execute(Application* app) const
+{
+	app->scene().simulationState().removeParticles();
+};

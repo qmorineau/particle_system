@@ -6,6 +6,7 @@
 
 Scene::Scene(unsigned int particles) :
 	_particleSystem(particles),
+	_simulationState(particles),
 	_camera(SCR_WIDTH, SCR_HEIGHT)
 {}
 

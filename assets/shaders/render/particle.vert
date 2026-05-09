@@ -5,6 +5,7 @@ layout (location = 0) in vec4 aPos;
 layout (location = 2) in vec4 aColor;
 layout (location = 3) in float aLifeTime;
 layout (location = 4) in float aTimeToDeath;
+layout (location = 5) in float aIsDead;
 
 // ubo / ssbo
 layout(std140, binding = 1) uniform CameraData {
@@ -118,6 +119,9 @@ vec3 calculate_color()
 void main()
 {
     gl_Position = uProjection * uView * vec4(aPos.xyz, 1.0);
-    gl_PointSize = 1.0;
+	if (aIsDead == 1)
+		gl_PointSize = 0.0;
+	else
+	    gl_PointSize = 1.0;
 	frag_col = vec4(calculate_color(), 1.0);
 }

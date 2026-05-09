@@ -25,6 +25,8 @@ InputHandler::InputHandler()
 	_continuousCommand[GLFW_KEY_D] = std::make_unique<Commands::CameraRight>();
 	_continuousCommand[GLFW_KEY_LEFT] = std::make_unique<Commands::SlowTime>();
 	_continuousCommand[GLFW_KEY_RIGHT] = std::make_unique<Commands::AccelerateTime>();
+	_continuousCommand[GLFW_KEY_UP] = std::make_unique<Commands::AddParticles>();
+	_continuousCommand[GLFW_KEY_DOWN] = std::make_unique<Commands::RemoveParticles>();
 }
 
 InputHandler::~InputHandler() {};

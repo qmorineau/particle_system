@@ -26,6 +26,6 @@ void Renderer::draw(const SimulationState& state, const ParticleSystem& ps)
 	ps.particles().bindVAO();
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
-	glDrawArrays(GL_POINTS, 0, ps.particles().count());
+	glDrawArrays(GL_POINTS, 0, state.count());
 }
 

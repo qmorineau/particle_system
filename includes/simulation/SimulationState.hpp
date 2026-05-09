@@ -19,18 +19,22 @@ class SimulationState
 			Fire,
 			COUNT
 		};
-		SimulationState();
+		SimulationState(unsigned int particles);
 		~SimulationState();
 
 		void			accelerateTimeSpeed(); 
 		void			slowTimeSpeed();
 		void			changeColorMode();
+		void			addParticles();
+		void			removeParticles();
 		
 		// setter
 		void			toggleGravity() {_isGravity = !_isGravity;};
 		void			toggleEmitter() {_isEmitter = !_isEmitter;};
 		void			setMouseTarget(MouseTarget target) {_mouseTarget = target;};
 		// getter
+		unsigned int	count() const {return _particlesNbr;};
+		unsigned int	maxParticles() const {return _particlesMax;};
 		bool			isGravity() const {return _isGravity;};
 		bool			isEmitter() const {return _isEmitter;};
 		float			timeSpeed() const {return _timeSpeed;};
@@ -39,12 +43,15 @@ class SimulationState
 		ColorMode		colorMode() const {return _colorMode;};
 
 	private:
-		bool			_isGravity = false;
-		bool			_isEmitter = false; 
-		float			_timeSpeed = 1.f;
-		float			_lifespan = 3.f;
-		MouseTarget		_mouseTarget = MouseTarget::Camera;
-		ColorMode		_colorMode = ColorMode::Mouse;
+		const unsigned int	_particlesIncr = 1000;
+		const unsigned int	_particlesMax;
+		long				_particlesNbr;
+		bool				_isGravity = false;
+		bool				_isEmitter = false; 
+		float				_timeSpeed = 1.f;
+		float				_lifespan = 3.f;
+		MouseTarget			_mouseTarget = MouseTarget::Camera;
+		ColorMode			_colorMode = ColorMode::Mouse;
 };
 
 #endif

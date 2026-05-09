@@ -5,7 +5,7 @@ Application::Application(char* arg) :
 	_scene(nullptr),
 	_renderer()
 {
-	int particles = 3000000;
+	int particles = 100000;
 	if (arg)
 	{
 		int tmp = std::atoi(arg);
@@ -99,5 +99,6 @@ std::string Application::buildTitle()
 			str = "Emitter";
 		title.append(" - [Moving: " + str + " position]");
 	}
+	title.append(" - Particles: " + std::to_string(_scene->simulationState().count() / 1000) + "k");
 	return title;
 }

@@ -1,6 +1,8 @@
 #include "SimulationState.hpp"
 
-SimulationState::SimulationState() {};
+SimulationState::SimulationState(unsigned int particles)
+	: _particlesMax(particles), _particlesNbr(particles)
+{};
 
 SimulationState::~SimulationState() {};
 
@@ -27,4 +29,22 @@ void SimulationState::slowTimeSpeed()
 void SimulationState::changeColorMode()
 {
 	_colorMode = static_cast<ColorMode>((static_cast<int>(_colorMode) + 1) % static_cast<int>(ColorMode::COUNT));
+};
+
+void SimulationState::addParticles()
+{
+	long tmp = _particlesNbr + _particlesIncr;
+	if (tmp > _particlesMax)
+		_particlesNbr = _particlesMax;
+	else
+		_particlesNbr = tmp;
+};
+
+void SimulationState::removeParticles()
+{
+	long tmp = _particlesNbr - _particlesIncr;
+	if (tmp < _particlesIncr)
+		_particlesNbr = _particlesIncr;
+	else
+		_particlesNbr = tmp;
 };
