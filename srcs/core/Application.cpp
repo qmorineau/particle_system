@@ -78,11 +78,8 @@ std::string Application::buildTitle()
 {
 	std::string title = "Particles System ";
 	const SimulationState& state = scene().simulationState();
-	float fps = 1.f / std::max(_deltaTime, 0.0001f);
-	std::string strFps = std::to_string(static_cast<int>(fps));
-	title.append("[" + strFps + " fps]");
 	std::string speed = std::to_string(static_cast<int>(state.timeSpeed() * 100));
-	title.append("	- Speed: " + speed + "%");
+	title.append("- Speed: " + speed + "%");
 	std::string gravityState(state.isGravity() ? "On" : "Off");
 	title.append(" - Gravity: " + gravityState);
 	std::string emitterState(state.isEmitter() ? "On" : "Off");
@@ -100,5 +97,8 @@ std::string Application::buildTitle()
 		title.append(" - [Moving: " + str + " position]");
 	}
 	title.append(" - Particles: " + std::to_string(_scene->simulationState().count() / 1000) + "k");
+	float fps = 1.f / std::max(_deltaTime, 0.0001f);
+	std::string strFps = std::to_string(static_cast<int>(fps));
+	title.append(" [" + strFps + " fps]");
 	return title;
 }
