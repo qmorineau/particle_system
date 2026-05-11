@@ -5,7 +5,7 @@ Application::Application(char* arg) :
 	_scene(nullptr),
 	_renderer()
 {
-	int particles = 100000;
+	int particles = 1000000;
 	if (arg)
 	{
 		int tmp = std::atoi(arg);

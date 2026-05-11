@@ -73,8 +73,6 @@ void Commands::ToggleGravity::execute(Application* app) const
 };
 void Commands::ToggleEmitter::execute(Application* app) const
 {
-	if (app->window().getMouse())
-		app->scene().simulationState().setMouseTarget(SimulationState::MouseTarget::Emitter);
 	app->scene().simulationState().toggleEmitter();
 };
 void Commands::SlowTime::execute(Application* app) const

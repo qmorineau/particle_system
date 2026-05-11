@@ -21,6 +21,7 @@ class SSBO
 			_size = size;
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, _id);
 			glBufferData(GL_SHADER_STORAGE_BUFFER, _size, nullptr, GL_DYNAMIC_COPY);
+			glClearNamedBufferData(_id, GL_R8UI, GL_RED_INTEGER, GL_UNSIGNED_BYTE, 0);
 		};
 		void bind() const
 		{

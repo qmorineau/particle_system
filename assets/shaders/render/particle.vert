@@ -64,8 +64,16 @@ vec3 gravityColorMode()
 {
 	vec3 color;
 	float dGrav = distance(aPos.xyz, gravity.pos.xyz);
-	float tGrav = smoothstep(0.0, 150.0, dGrav);
-	color = vec3(1.0 - tGrav, 0.35 - tGrav, 0.35 - tGrav);
+	float distRatio = dGrav / 50.0;
+
+	if (distRatio < 0.2)
+		color = mix(vec3(1.0, 1.0, 0.8), vec3(0.3, 0.3, 0.8), distRatio / 0.2);
+	else if (distRatio < 0.5)
+		color = mix(vec3(0.3, 0.3, 0.8), vec3(0.0, 0.0, 0.8), (distRatio - 0.2) / 0.3);
+	else if (distRatio < 0.8)
+		color = mix(vec3(0.0, 0.0, 0.8), vec3(0.0, 0.0, 0.6), (distRatio - 0.5) / 0.3);
+	else
+		color = mix(vec3(0.0, 0.0, 0.6), vec3(0.0, 0.0, 0.2), (distRatio - 0.8) / 0.2);
 	return color;
 }
 
@@ -73,8 +81,16 @@ vec3 emitterColorMode()
 {
 	vec3 color;
 	float dEmit = distance(aPos.xyz, emitter.pos.xyz);
-	float tEmit = smoothstep(0.0, 150.0, dEmit);
-	color = vec3(0.75 - tEmit, 1.0 - tEmit, 0.75 - tEmit);
+	float distRatio = dEmit / 150.0;
+
+	if (distRatio < 0.1)
+		color = mix(vec3(1.0, 1.0, 0.8), vec3(0.5, 0.8, 0.3), distRatio / 0.2);
+	else if (distRatio < 0.3)
+		color = mix(vec3(0.5, 0.8, 0.3), vec3(0.0, 0.6, 0.0), (distRatio - 0.2) / 0.3);
+	else if (distRatio < 0.8)
+		color = mix(vec3(0.0, 0.6, 0.0), vec3(0.0, 0.4, 0.0), (distRatio - 0.5) / 0.3);
+	else
+		color = mix(vec3(0.0, 0.6, 0.0), vec3(0.0, 0.2, 0.0), (distRatio - 0.8) / 0.2);
 	return color;
 }
 
