@@ -24,7 +24,7 @@ Window::Window(Application* app)
 	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetWindowUserPointer(_window, app);
 
-    glfwMakeContextCurrent(_window);
+    // glfwMakeContextCurrent(_window);
     glfwSetFramebufferSizeCallback(_window, Window::framebufferSizeCallback);
 	glfwSetCursorPosCallback(_window, InputManager::mouseCallback);
     glfwSetScrollCallback(_window, InputManager::scrollCallback);
