@@ -19,14 +19,38 @@ class InputHandler
 		InputHandler();
 		~InputHandler();
 		
-		void handleKeysCallback(Application* app, int key);
-		void handleMouseCallback(Application* app, int key);
-		void handleKeys(Application* app);
+		void onKeyPressed(Application* app, int key);
+		void onMouseEvent(Application* app, int key);
+		void updateHeldKey(Application* app);
 
 	private:
-		std::unordered_map<int, std::unique_ptr<ICommand>> _eventKeyCommand;
-		std::unordered_map<int, std::unique_ptr<ICommand>> _eventMouseCommand;
-		std::unordered_map<int, std::unique_ptr<ICommand>> _continuousCommand;
+		struct InputKey
+		{
+			int key;
+			int mod;
+			bool operator==(const InputKey& k) const
+			{
+				return (k.key == key && k.mod == mod);
+			};
+		};
+		struct InputKeyHash // to put in the hashtable 
+		{
+			size_t operator()(const InputKey& k) const
+			{
+				return k.key | (k.mod << 16);  // bits 0-15 = key, bits 16-31 = mod
+			}    
+		};
+
+		struct InputBindings
+		{
+			std::unordered_map<InputKey, std::unique_ptr<ICommand>, InputKeyHash> onPressed;
+			std::unordered_map<InputKey, std::unique_ptr<ICommand>, InputKeyHash> whileHeld;
+			std::unordered_map<InputKey, std::unique_ptr<ICommand>, InputKeyHash> mouse;
+		};
+
+		InputBindings	_commands;
+
+		bool executeCommand(Application * app, std::unordered_map<InputKey, std::unique_ptr<ICommand>, InputKeyHash>& map, InputKey key);
 };
 
  #endif

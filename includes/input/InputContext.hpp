@@ -1,17 +1,51 @@
 #ifndef INPUTCONTEXTHPP
 #define INPUTCONTEXTHPP
 
+#include <bitset>
+#include <algorithm>
+#include <vector>
+
 #include "Types.hpp"
 
-struct InputContext
+class InputContext
 {
-	bool	keys[1024] = {false};
-	bool	mouse[8] = {false};
-	vec2	mousePos;
-	bool	mouseMoved = false;
-	vec2	mouseOffset;
-	bool	mouseScrolled = false;
-	vec2	ndc; // normalize device coordinate
+	public:
+		InputContext();
+		~InputContext();
+
+		void pressKey(int key);
+		void releaseKey(int key);
+		void pressMouse(int key);
+		void releaseMouse(int key);
+
+		// setter
+		void setMods(int m)				{_mods = m;};
+		void setIsMouseCaptured(bool v)	{_isMouseCaptured = v;};
+		void setIsMouseMoved(bool v) 	{_isMouseMoved = v;};
+		void setIsMouseScrolled(bool v)	{_isMouseScrolled = v;};
+		void setMouseScrolled(vec2 v) 	{_mouseScroll = v;};
+		void setMousePos(vec2 v) 		{_mousePos = v;};
+		void setNDC(vec2 v) 			{_ndc = v;};
+		// getter
+		int getMods()					{return _mods;};
+		bool isMouseCaptured() 			{return _isMouseCaptured;};
+		bool isMouseMoved()				{return _isMouseMoved;};
+		bool isMouseScrolled()			{return _isMouseScrolled;};
+		const vec2& mouseScroll()		{return _mouseScroll;};
+		const vec2& mousePos()			{return _mousePos;};
+		const auto& activeKeys()		{return _activeKeys;};
+		const vec2& ndc()				{return _ndc;};
+	private:
+		int					_mods;
+		bool				_isMouseCaptured = true;
+		std::bitset<1024>	_keys;
+		std::vector<int>	_activeKeys;
+		std::bitset<8>		_mouse;
+		vec2				_mousePos;
+		bool				_isMouseMoved = false;
+		vec2				_mouseScroll;
+		bool				_isMouseScrolled = false;
+		vec2				_ndc; // normalize device coordinate
 };
 
 #endif

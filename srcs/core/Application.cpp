@@ -32,11 +32,11 @@ void Application::renderLoop()
 	while (!glfwWindowShouldClose(_window.getWindow()))
 	{
 		// Mouse
-		if (_inputContext.mouseMoved)
-		_inputHandler.handleMouseCallback(this, InputHandler::CommandID::CMD_MOUSE_MOVE);
-		if (_inputContext.mouseScrolled)
-		_inputHandler.handleMouseCallback(this, InputHandler::CommandID::CMD_MOUSE_SCROLL);
-		_inputHandler.handleKeys(this);
+		if (_inputContext.isMouseMoved())
+			_inputHandler.onMouseEvent(this, InputHandler::CommandID::CMD_MOUSE_MOVE);
+		if (_inputContext.isMouseScrolled())
+			_inputHandler.onMouseEvent(this, InputHandler::CommandID::CMD_MOUSE_SCROLL);
+		_inputHandler.updateHeldKey(this);
 		
 		// Frame / Delta
 		float currentFrame = static_cast<float>(glfwGetTime());
@@ -47,14 +47,13 @@ void Application::renderLoop()
 		_window.manageTitle(buildTitle());
 		
 		_simulation.simulate(_scene->simulationState(), _scene->particleSystem(), _deltaTime);
-		_scene->update(_deltaTime, _inputContext.ndc);
+		_scene->update(_deltaTime, _inputContext.ndc());
 		
 		_renderer.beginFrame();
 		_renderer.draw(_scene->simulationState(), _scene->particleSystem());
 		endFrame();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
         glfwSwapBuffers(_window.getWindow());
         glfwPollEvents();
 	}
@@ -63,10 +62,9 @@ void Application::renderLoop()
 void Application::endFrame()
 {
     auto& ctx = _inputContext;
-    ctx.mouseMoved = false;
-    ctx.mouseScrolled = false;
-    ctx.mouseOffset.x = 0;
-    ctx.mouseOffset.y = 0;
+    ctx.setIsMouseMoved(false);
+	ctx.setIsMouseScrolled(false);
+	ctx.setMouseScrolled(vec2(0));
 }
 
 void Application::setShape(Simulation::Shape shape)
