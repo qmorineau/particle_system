@@ -71,6 +71,7 @@ Since the program does not display help in the window, here is the complete cont
 - **Up / Down Arrow**: Increase / Decrease active particle count
 - **Left / Right Arrow**: Increase / Decrease simulation speed
 - **G**: Toggle gravity on / off
+- **E**: Toggle emitter on / off
 
 ### Emitter & Gravity
 - **Alt + Left Click**: Move emitter position
