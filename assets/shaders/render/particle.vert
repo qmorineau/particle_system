@@ -44,6 +44,10 @@ const int COLOR_MODE_GRAVITY = 1;
 const int COLOR_MODE_EMITTER = 2;
 const int COLOR_MODE_FIRE = 3;
 
+// textures
+flat out int v_texID;
+flat out vec4 v_color;
+
 // func
 vec3 mouseColorMode()
 {
@@ -138,6 +142,6 @@ void main()
 	if (aIsDead == 1)
 		gl_PointSize = 0.0;
 	else
-	    gl_PointSize = 1.0;
+	    gl_PointSize = 10.0;
 	frag_col = vec4(calculate_color(), 1.0);
 }

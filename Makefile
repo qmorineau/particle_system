@@ -29,6 +29,7 @@ INCLUDES = -I $(INC_DIR) \
 			-I $(INC_DIR)/input \
 			-I $(INC_DIR)/simulation \
 			-I $(INC_DIR)/scene \
+			-I $(INC_DIR)/utils \
 			-I $(GLAD_DIR)/include \
 			-I $(GLFW_DIR)/include
 
@@ -80,7 +81,7 @@ $(GLFW_LIB): $(GLFW_SUBMODULE_OK)
 	@cd $(GLFW_BUILD_DIR) && make -j$(shell nproc)
 
 test: all
-	./$(NAME) 100000
+	./$(NAME) 1000000
 
 .PHONY: all re clean fclean submodules test
 

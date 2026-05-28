@@ -1,6 +1,7 @@
 #include "Renderer.hpp"
 #include "ParticleSystem.hpp"
 #include "SimulationState.hpp"
+#include "TextureLoader.hpp"
 
 Renderer::Renderer() :
 	_render("assets/shaders/render/particle.vert", "assets/shaders/render/particle.frag")
