@@ -37,6 +37,7 @@ out vec4 frag_col;
 uniform int color_mode;
 uniform int track_mouse;
 uniform float life_span;
+uniform int particles_mode;
 
 // variables
 const int COLOR_MODE_MOUSE = 0;
@@ -45,6 +46,8 @@ const int COLOR_MODE_EMITTER = 2;
 const int COLOR_MODE_FIRE = 3;
 
 // textures
+const int PARTICLE_MODE_SMOKE = 0;
+const int PARTICLE_MODE_MAGIC = 0;
 flat out int v_texID;
 flat out vec4 v_color;
 
@@ -138,10 +141,13 @@ vec3 calculate_color()
 
 void main()
 {
+	v_texID = particles_mode;
     gl_Position = uProjection * uView * vec4(aPos.xyz, 1.0);
 	if (aIsDead == 1)
 		gl_PointSize = 0.0;
+	else if (v_texID >= 0) 
+		gl_PointSize = aTimeToDeath * 10;
 	else
-	    gl_PointSize = 10.0;
+	    gl_PointSize = 1.0;
 	frag_col = vec4(calculate_color(), 1.0);
 }

@@ -46,6 +46,7 @@ uniform int   gravity_on;
 uniform int   emitter_on;
 uniform float life_span;
 uniform float time_speed;
+uniform int	  particles_mode;
 
 float hash(uint x)
 {

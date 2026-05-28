@@ -15,6 +15,9 @@ void main()
 	}
 	else
 	{
-		out_col = texture(textures[v_texID], gl_PointCoord) * frag_col;
+		vec4 tex = texture(textures[v_texID], gl_PointCoord) * frag_col;
+		if (tex.a < 0.01)
+			discard;
+		out_col = tex; 
 	}
 }

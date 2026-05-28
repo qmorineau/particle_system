@@ -115,3 +115,17 @@ void Commands::RemoveParticles::execute(Application* app) const
 {
 	app->scene().simulationState().removeParticles();
 };
+// mode
+void Commands::DefaultMode::execute(Application* app) const
+{
+	app->scene().simulationState().setParticlesMode(SimulationState::ParticlesMode::Default);
+};
+void Commands::SmokeMode::execute(Application* app) const
+{
+	app->scene().simulationState().setParticlesMode(SimulationState::ParticlesMode::Smoke);
+};
+
+void Commands::MagicMode::execute(Application* app) const
+{
+	app->scene().simulationState().setParticlesMode(SimulationState::ParticlesMode::Magic);
+};
