@@ -46,8 +46,9 @@ const int COLOR_MODE_EMITTER = 2;
 const int COLOR_MODE_FIRE = 3;
 
 // textures
+const int PARTICLE_MODE_DEFAULT = -1;
 const int PARTICLE_MODE_SMOKE = 0;
-const int PARTICLE_MODE_MAGIC = 0;
+const int PARTICLE_MODE_MAGIC = 1;
 flat out int v_texID;
 flat out vec4 v_color;
 
@@ -121,33 +122,49 @@ vec3 fireColorMode()
 vec3 calculate_color()
 {
 	vec3 color;
-	switch (color_mode)
+	switch (particles_mode)
 	{
-		case COLOR_MODE_MOUSE:
-			color = mouseColorMode();
+		case PARTICLE_MODE_SMOKE:
+			color = vec3(1, 1, 1);
 			break;
-		case COLOR_MODE_GRAVITY:
-			color = gravityColorMode();
+		case PARTICLE_MODE_MAGIC:
+			color = vec3(1, 0, 1);
 			break;
-		case COLOR_MODE_EMITTER:
-			color = emitterColorMode();
-			break;
-		case COLOR_MODE_FIRE:
-			color = fireColorMode();
+		default:
+			switch (color_mode)
+			{
+				case COLOR_MODE_MOUSE:
+					color = mouseColorMode();
+					break;
+				case COLOR_MODE_GRAVITY:
+					color = gravityColorMode();
+					break;
+				case COLOR_MODE_EMITTER:
+					color = emitterColorMode();
+					break;
+				case COLOR_MODE_FIRE:
+					color = fireColorMode();
+					break;
+			}
 			break;
 	}
 	return color;
+}
+
+float calculate_size()
+{
+	if (aIsDead == 1)
+		return  0.0;
+	else if (v_texID >= 0) 
+		return  aTimeToDeath * 5;
+	else
+	    return  1.0;
 }
 
 void main()
 {
 	v_texID = particles_mode;
     gl_Position = uProjection * uView * vec4(aPos.xyz, 1.0);
-	if (aIsDead == 1)
-		gl_PointSize = 0.0;
-	else if (v_texID >= 0) 
-		gl_PointSize = aTimeToDeath * 10;
-	else
-	    gl_PointSize = 1.0;
-	frag_col = vec4(calculate_color(), 1.0);
+	gl_PointSize = calculate_size();
+	frag_col = vec4(calculate_color(), 0.5);
 }

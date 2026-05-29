@@ -48,6 +48,10 @@ uniform float life_span;
 uniform float time_speed;
 uniform int	  particles_mode;
 
+const int PARTICLES_MODE_DEFAULT = -1;
+const int PARTICLES_MODE_SMOKE = 0;
+const int PARTICLES_MODE_MAGIC = 1;
+
 float hash(uint x)
 {
     x ^= x >> 16;

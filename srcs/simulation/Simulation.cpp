@@ -3,10 +3,10 @@
 #include "ParticleSystem.hpp"
 
 Simulation::Simulation() :
-	_update("assets/shaders/compute/update.comp"),
-	_shape("assets/shaders/compute/shape.comp"),
-	_emitter("assets/shaders/compute/emitter.comp"),
-	_gravity("assets/shaders/compute/gravity.comp")
+	_update("assets/shaders/compute/update.compute"),
+	_shape("assets/shaders/compute/shape.compute"),
+	_emitter("assets/shaders/compute/emitter.compute"),
+	_gravity("assets/shaders/compute/gravity.compute")
 {
 
 };
