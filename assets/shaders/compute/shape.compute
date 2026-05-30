@@ -60,7 +60,9 @@ void main()
 	}
 	particles[i].timeToDeath = life_span * hash(uint(i) + 999u);
 	particles[i].lifeTime = life_span - particles[i].timeToDeath;
+	float tmp = hash(i * 456u);
+	particles[i].col = vec4(tmp, tmp, tmp, 1.0);
+	particles[i].size = hash(i * 456u) * 5.0 + 1.0;
 
 	particles[i].vel = vec4(0.0, 0.0, 0.0, 1.0);
-	particles[i].col = vec4(1, 1, 1, 1);
 }

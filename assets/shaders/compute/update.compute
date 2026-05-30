@@ -53,6 +53,7 @@ const int PARTICLES_MODE_DEFAULT = -1;
 const int PARTICLES_MODE_SMOKE = 0;
 const int PARTICLES_MODE_MAGIC = 1;
 
+// utils
 float hash(uint x)
 {
     x ^= x >> 16;
@@ -62,6 +63,14 @@ float hash(uint x)
     x ^= x >> 16;
     return float(x) / float(0xffffffffu);
 }
+
+vec3 unproject(vec2 ndc, float depth, mat4 invViewProj)
+{
+    vec4 clip = vec4(ndc, depth, 1.0);
+    vec4 world = invViewProj * clip;
+    return world.xyz / world.w;
+}
+
 
 void calculate_velocity(uint i)
 {
@@ -89,13 +98,7 @@ void calculate_velocity(uint i)
 	}
 }
 
-vec3 unproject(vec2 ndc, float depth, mat4 invViewProj)
-{
-    vec4 clip = vec4(ndc, depth, 1.0);
-    vec4 world = invViewProj * clip;
-    return world.xyz / world.w;
-}
-
+// functions
 void lifetimeUpdate()
 {
 	uint i = gl_GlobalInvocationID.x;
@@ -116,7 +119,6 @@ void lifetimeUpdate()
 		particles[i].lifeTime = 0;
 		particles[i].timeToDeath = life_span;
 		particles[i].pos.xyz = emitter.pos.xyz;
-		particles[i].size = hash(i * 456u) * 5.0 + 1.0;
 		float tmp = hash(i * 456u);
 		particles[i].col = vec4(tmp, tmp, tmp, 1.0);
 		if (particles_mode == PARTICLES_MODE_DEFAULT)
@@ -136,10 +138,33 @@ void lifetimeUpdate()
 			particles[i].vel.xyz = normalize(vec3(rx * cone_radius, ry, rz * cone_radius)) * 0.5;
 		}
 	}
-	if (particles_mode == PARTICLES_MODE_SMOKE)
+	
+}
+
+void calculate_size(uint i)
+{
+	switch (particles_mode)
 	{
-		float lifeRatio = particles[i].lifeTime / life_span;
-   		particles[i].size = mix(5.0, 60.0, lifeRatio);
+		case PARTICLES_MODE_SMOKE:
+			float lifeRatio = particles[i].lifeTime / life_span;
+			particles[i].size = mix(5.0, 60.0, lifeRatio);
+			return;
+		default:
+			break;
+	}
+}
+
+void update_position(uint i)
+{
+	switch (particles_mode)
+	{
+		case PARTICLES_MODE_SMOKE:
+			float lifeRatio = particles[i].lifeTime / life_span;
+			particles[i].pos += particles[i].vel * delta_time * time_speed * (lifeRatio  * 20);
+			break;
+		default:
+			particles[i].pos += particles[i].vel * delta_time * time_speed;
+			break;
 	}
 }
 
@@ -160,15 +185,7 @@ void main()
 
 	if (emitter_on == 1)
 		lifetimeUpdate();
+	calculate_size(i);
 	calculate_velocity(i);
-	switch (particles_mode)
-	{
-		case PARTICLES_MODE_SMOKE:
-			float lifeRatio = particles[i].lifeTime / life_span;
-			particles[i].pos += particles[i].vel * delta_time * time_speed * (lifeRatio  * 20);
-			break;
-		default:
-			particles[i].pos += particles[i].vel * delta_time * time_speed;
-			break;
-	}
+	update_position(i);
 }
