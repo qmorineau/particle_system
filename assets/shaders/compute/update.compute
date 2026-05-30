@@ -76,6 +76,18 @@ void calculate_velocity(uint i)
 {
 	vec3 vel = particles[i].vel.xyz;
 
+	if (particles_mode == PARTICLES_MODE_MAGIC)
+	{
+		vec3 velocity = vec3(0.0f);
+		vec3 toCenter = emitter.pos.xyz - particles[i].pos.xyz;
+		vec3 tangent = normalize(cross(toCenter, vec3(0, 1, 0)));
+
+		float orbitStrength = 1.0f;
+		velocity += tangent * orbitStrength;    // force tourbillon
+		velocity += normalize(toCenter) * 100.0;   // légère attraction au centre
+		particles[i].vel.xyz += velocity * time_speed;
+		return;
+	}
 	if (gravity_on == 1)
 	{
 		vec3 dir = gravity.pos.xyz - particles[i].pos.xyz;
@@ -119,26 +131,40 @@ void lifetimeUpdate()
 		particles[i].lifeTime = 0;
 		particles[i].timeToDeath = life_span;
 		particles[i].pos.xyz = emitter.pos.xyz;
-		float tmp = hash(i * 456u);
-		particles[i].col = vec4(tmp, tmp, tmp, 1.0);
-		if (particles_mode == PARTICLES_MODE_DEFAULT)
+		switch (particles_mode)
 		{
-			float rx = hash(i * 123u) * 2.0 - 1;
-        	float ry = hash(i * 456u) * 2.0 - 1;
-        	float rz = hash(i * 789u) * 2.0 - 1;
-			particles[i].vel.xyz = normalize(vec3(rx, ry, rz));
+			case PARTICLES_MODE_SMOKE:
+				float tmp = hash(i * 456u);
+				particles[i].col = vec4(tmp, tmp, tmp, 1.0);
+				break;
+			case PARTICLES_MODE_MAGIC:
+				float tmp1 = hash(i * 127u + 1u);
+				float tmp2 = hash(i * 311u + 50000u);
+				float tmp3 = hash(i * 743u + 99999u);
+				particles[i].col = vec4(tmp1, tmp2, tmp3, 1.0);
+				break;
 		}
-		else
+		float rx;
+		float ry;
+		float rz;
+		switch(particles_mode)
 		{
-			float rx = hash(i * 123u) * 2.0 - 1;
-			float rz = hash(i * 789u) * 2.0 - 1;
-			float ry = hash(i * 321u) * 0.3 + 0.7; // toujours positif, majoritairement vers le haut
+			case PARTICLES_MODE_SMOKE:
+				rx = hash(i * 123u) * 2.0 - 1;
+				rz = hash(i * 789u) * 2.0 - 1;
+				ry = hash(i * 321u) * 0.3 + 0.7; // toujours positif, majoritairement vers le haut
 
-			float cone_radius = 0.7; // 0.0 = tout droit, 1.0 = large
-			particles[i].vel.xyz = normalize(vec3(rx * cone_radius, ry, rz * cone_radius)) * 0.5;
+				float cone_radius = 0.7; // 0.0 = tout droit, 1.0 = large
+				particles[i].vel.xyz = normalize(vec3(rx * cone_radius, ry, rz * cone_radius)) * 0.5;
+				break;
+			default:
+				rx = hash(i * 123u) * 2.0 - 1;
+				ry = hash(i * 456u) * 2.0 - 1;
+				rz = hash(i * 789u) * 2.0 - 1;
+				particles[i].vel.xyz = normalize(vec3(rx, ry, rz));
+				break;
 		}
 	}
-	
 }
 
 void calculate_size(uint i)
@@ -148,7 +174,11 @@ void calculate_size(uint i)
 		case PARTICLES_MODE_SMOKE:
 			float lifeRatio = particles[i].lifeTime / life_span;
 			particles[i].size = mix(5.0, 60.0, lifeRatio);
-			return;
+			break;
+		case PARTICLES_MODE_MAGIC:
+			float speed = length(particles[i].vel.xyz);
+			particles[i].size = clamp(speed * 10.0, 2.0, 10.0);
+			break;
 		default:
 			break;
 	}

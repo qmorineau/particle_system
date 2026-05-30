@@ -129,7 +129,8 @@ vec3 calculate_color()
 			color = aColor.xyz;
 			break;
 		case PARTICLE_MODE_MAGIC:
-			color = vec3(1, 0, 1);
+			//color = vec3(1, 0, 1);
+			color = aColor.xyz;
 			break;
 		default:
 			switch (color_mode)
@@ -170,7 +171,7 @@ float calculate_transparency()
 			else
 				return mix(0.04, 0.0, (tmp - 0.85) / 0.15);
 		case PARTICLE_MODE_MAGIC:
-			return 0.5;
+			return 1.0;
 		default:
 			return 1.0;
 	}
