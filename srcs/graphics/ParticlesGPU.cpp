@@ -31,6 +31,9 @@ void ParticlesGPU::createVAO()
 
 	glVertexAttribPointer(5, 1, GL_INT, GL_FALSE, stride, (void*)offsetof(Particle, isDead));
 	glEnableVertexAttribArray(5);
+
+	glVertexAttribPointer(6, 1, GL_FLOAT, GL_FALSE, stride, (void*)offsetof(Particle, size));
+	glEnableVertexAttribArray(6);
 }
 
 void ParticlesGPU::createSSBO()

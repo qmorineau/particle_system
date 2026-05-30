@@ -10,6 +10,7 @@ struct Particle
 	float lifeTime;
 	float timeToDeath;
 	int isDead;
+	float size;
 };
 
 layout(std430, binding = 0) buffer Particles { Particle particles[]; };
@@ -72,7 +73,16 @@ void calculate_velocity(uint i)
 		float dist = length(dir);
 		vec3 normal_dir = normalize(dir);
 
-		float G = 9.31;
+		float G = 0.0;
+		switch (particles_mode)
+		{
+			case PARTICLES_MODE_SMOKE:
+				G = 0.038;
+				break;
+			default:
+				G = 9.31;
+				break;
+		}
 		float force = G / (dist * dist + 0.001);
 		
 		particles[i].vel.xyz += dir * force * time_speed;
@@ -106,10 +116,30 @@ void lifetimeUpdate()
 		particles[i].lifeTime = 0;
 		particles[i].timeToDeath = life_span;
 		particles[i].pos.xyz = emitter.pos.xyz;
-		float rx = hash(i * 123u) * 2.0 - 1;
-        float ry = hash(i * 456u) * 2.0 - 1;
-        float rz = hash(i * 789u) * 2.0 - 1;
-		particles[i].vel.xyz = normalize(vec3(rx, ry, rz));
+		particles[i].size = hash(i * 456u) * 5.0 + 1.0;
+		float tmp = hash(i * 456u);
+		particles[i].col = vec4(tmp, tmp, tmp, 1.0);
+		if (particles_mode == PARTICLES_MODE_DEFAULT)
+		{
+			float rx = hash(i * 123u) * 2.0 - 1;
+        	float ry = hash(i * 456u) * 2.0 - 1;
+        	float rz = hash(i * 789u) * 2.0 - 1;
+			particles[i].vel.xyz = normalize(vec3(rx, ry, rz));
+		}
+		else
+		{
+			float rx = hash(i * 123u) * 2.0 - 1;
+			float rz = hash(i * 789u) * 2.0 - 1;
+			float ry = hash(i * 321u) * 0.3 + 0.7; // toujours positif, majoritairement vers le haut
+
+			float cone_radius = 0.7; // 0.0 = tout droit, 1.0 = large
+			particles[i].vel.xyz = normalize(vec3(rx * cone_radius, ry, rz * cone_radius)) * 0.5;
+		}
+	}
+	if (particles_mode == PARTICLES_MODE_SMOKE)
+	{
+		float lifeRatio = particles[i].lifeTime / life_span;
+   		particles[i].size = mix(5.0, 60.0, lifeRatio);
 	}
 }
 
@@ -131,5 +161,14 @@ void main()
 	if (emitter_on == 1)
 		lifetimeUpdate();
 	calculate_velocity(i);
-	particles[i].pos += particles[i].vel * delta_time * time_speed;
+	switch (particles_mode)
+	{
+		case PARTICLES_MODE_SMOKE:
+			float lifeRatio = particles[i].lifeTime / life_span;
+			particles[i].pos += particles[i].vel * delta_time * time_speed * (lifeRatio  * 20);
+			break;
+		default:
+			particles[i].pos += particles[i].vel * delta_time * time_speed;
+			break;
+	}
 }

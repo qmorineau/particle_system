@@ -81,7 +81,7 @@ $(GLFW_LIB): $(GLFW_SUBMODULE_OK)
 	@cd $(GLFW_BUILD_DIR) && make -j$(shell nproc)
 
 test: all
-	./$(NAME) 1000000
+	./$(NAME) 10000
 
 .PHONY: all re clean fclean submodules test
 

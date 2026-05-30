@@ -52,5 +52,6 @@ void Renderer::draw(const SimulationState& state, const ParticleSystem& ps)
  	// glBlendFunc(GL_ONE, GL_ONE);
 
 	glDrawArrays(GL_POINTS, 0, state.count());
+	glDepthMask(GL_TRUE);
 }
 

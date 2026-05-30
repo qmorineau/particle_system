@@ -57,7 +57,7 @@ class SimulationState
 		bool				_isGravity = false;
 		bool				_isEmitter = false; 
 		float				_timeSpeed = 1.f;
-		float				_lifespan = 3.f;
+		float				_lifespan = 5.f;
 		MouseTarget			_mouseTarget = MouseTarget::Camera;
 		ColorMode			_colorMode = ColorMode::Mouse;
 		ParticlesMode		_particlesMode = ParticlesMode::Default;

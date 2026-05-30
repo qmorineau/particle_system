@@ -5,7 +5,8 @@ layout (location = 0) in vec4 aPos;
 layout (location = 2) in vec4 aColor;
 layout (location = 3) in float aLifeTime;
 layout (location = 4) in float aTimeToDeath;
-layout (location = 5) in float aIsDead;
+layout (location = 5) in int aIsDead;
+layout (location = 6) in float aSize;
 
 // ubo / ssbo
 layout(std140, binding = 1) uniform CameraData {
@@ -125,7 +126,7 @@ vec3 calculate_color()
 	switch (particles_mode)
 	{
 		case PARTICLE_MODE_SMOKE:
-			color = vec3(1, 1, 1);
+			color = aColor.xyz;
 			break;
 		case PARTICLE_MODE_MAGIC:
 			color = vec3(1, 0, 1);
@@ -145,18 +146,45 @@ vec3 calculate_color()
 				case COLOR_MODE_FIRE:
 					color = fireColorMode();
 					break;
+				default:
+					color = vec3(1,1,1);
+					break;
 			}
 			break;
 	}
 	return color;
 }
 
+float calculate_transparency()
+{
+	switch (particles_mode)
+	{
+		case PARTICLE_MODE_SMOKE:
+			float tmp = aLifeTime / life_span;
+			if (tmp < 0.1)
+				return tmp / 0.1 * 0.12;
+			else if (tmp < 0.6)
+				return 0.12;
+			else if (tmp < 0.85)
+				return mix(0.12, 0.04, (tmp - 0.6) / 0.25);
+			else
+				return mix(0.04, 0.0, (tmp - 0.85) / 0.15);
+		case PARTICLE_MODE_MAGIC:
+			return 0.5;
+		default:
+			return 1.0;
+	}
+}
+
 float calculate_size()
 {
 	if (aIsDead == 1)
 		return  0.0;
-	else if (v_texID >= 0) 
-		return  aTimeToDeath * 5;
+	else if (v_texID >= 0)
+	{
+		float dist = length(uViewPos - aPos.xyz);
+        return clamp((aSize / dist) * 100.0, 1.0, 256.0);
+	}
 	else
 	    return  1.0;
 }
@@ -166,5 +194,5 @@ void main()
 	v_texID = particles_mode;
     gl_Position = uProjection * uView * vec4(aPos.xyz, 1.0);
 	gl_PointSize = calculate_size();
-	frag_col = vec4(calculate_color(), 0.5);
+	frag_col = vec4(calculate_color(), calculate_transparency());
 }

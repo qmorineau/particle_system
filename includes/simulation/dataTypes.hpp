@@ -7,13 +7,13 @@
 
 struct Particle
 {
-	vec4 	position;
-	vec4 	velocity;
-	vec4 	color;
-	float	lifeTime;
-	float	timeToDeath;
-	int		isDead;
-	int		aligned;
+	vec4 	position; 		// 16 bytes
+	vec4 	velocity; 		// 16 bytes
+	vec4 	color;			// 16 bytes
+	float	lifeTime;		// 4 bytes
+	float	timeToDeath;	// 4 bytes
+	int		isDead;			// 4 bytes
+	float	size;		// 4 bytes
 
 	static constexpr unsigned int binding = 0;
 };
