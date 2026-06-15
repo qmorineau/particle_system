@@ -51,7 +51,6 @@ uniform int	  particles_mode;
 
 const int PARTICLES_MODE_DEFAULT = -1;
 const int PARTICLES_MODE_SMOKE = 0;
-const int PARTICLES_MODE_MAGIC = 1;
 
 // utils
 float hash(uint x)
@@ -76,18 +75,6 @@ void calculate_velocity(uint i)
 {
 	vec3 vel = particles[i].vel.xyz;
 
-	if (particles_mode == PARTICLES_MODE_MAGIC)
-	{
-		vec3 velocity = vec3(0.0f);
-		vec3 toCenter = emitter.pos.xyz - particles[i].pos.xyz;
-		vec3 tangent = normalize(cross(toCenter, vec3(0, 1, 0)));
-
-		float orbitStrength = 1.0f;
-		velocity += tangent * orbitStrength;    // force tourbillon
-		velocity += normalize(toCenter) * 100.0;   // légère attraction au centre
-		particles[i].vel.xyz += velocity * time_speed;
-		return;
-	}
 	if (gravity_on == 1)
 	{
 		vec3 dir = gravity.pos.xyz - particles[i].pos.xyz;
@@ -137,12 +124,6 @@ void lifetimeUpdate()
 				float tmp = hash(i * 456u);
 				particles[i].col = vec4(tmp, tmp, tmp, 1.0);
 				break;
-			case PARTICLES_MODE_MAGIC:
-				float tmp1 = hash(i * 127u + 1u);
-				float tmp2 = hash(i * 311u + 50000u);
-				float tmp3 = hash(i * 743u + 99999u);
-				particles[i].col = vec4(tmp1, tmp2, tmp3, 1.0);
-				break;
 		}
 		float rx;
 		float ry;
@@ -175,10 +156,6 @@ void calculate_size(uint i)
 			float lifeRatio = particles[i].lifeTime / life_span;
 			particles[i].size = mix(5.0, 60.0, lifeRatio);
 			break;
-		case PARTICLES_MODE_MAGIC:
-			float speed = length(particles[i].vel.xyz);
-			particles[i].size = clamp(speed * 10.0, 2.0, 10.0);
-			break;
 		default:
 			break;
 	}
@@ -205,8 +182,6 @@ void main()
 		return;
 	if (i >= particles_nbr)
 	{
-		particles[i].pos.xyz = vec3(0.0);
-    	particles[i].vel.xyz = vec3(0.0);
 		particles[i].isDead = 1;
 		return ;
 	}

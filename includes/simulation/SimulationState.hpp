@@ -23,7 +23,6 @@ class SimulationState
 		{
 			Default = -1,
 			Smoke = 0,
-			Magic = 1
 		};
 		SimulationState(unsigned int particles);
 		~SimulationState();

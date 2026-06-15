@@ -49,7 +49,6 @@ const int COLOR_MODE_FIRE = 3;
 // textures
 const int PARTICLE_MODE_DEFAULT = -1;
 const int PARTICLE_MODE_SMOKE = 0;
-const int PARTICLE_MODE_MAGIC = 1;
 flat out int v_texID;
 flat out vec4 v_color;
 
@@ -128,10 +127,6 @@ vec3 calculate_color()
 		case PARTICLE_MODE_SMOKE:
 			color = aColor.xyz;
 			break;
-		case PARTICLE_MODE_MAGIC:
-			//color = vec3(1, 0, 1);
-			color = aColor.xyz;
-			break;
 		default:
 			switch (color_mode)
 			{
@@ -170,8 +165,6 @@ float calculate_transparency()
 				return mix(0.12, 0.04, (tmp - 0.6) / 0.25);
 			else
 				return mix(0.04, 0.0, (tmp - 0.85) / 0.15);
-		case PARTICLE_MODE_MAGIC:
-			return 1.0;
 		default:
 			return 1.0;
 	}

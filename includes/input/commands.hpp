@@ -106,10 +106,6 @@ namespace Commands
 	{
 		void execute(Application* app) const override;
 	};
-	class MagicMode : public ICommand
-	{
-		void execute(Application* app) const override;
-	};
 };
 
 #endif

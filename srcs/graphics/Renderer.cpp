@@ -9,7 +9,6 @@ Renderer::Renderer() :
 	try
 	{
 		_smokeTexture = TextureLoader::load("assets/texture/smoke.png");
-		_magicTexture = TextureLoader::load("assets/texture/magic.png");
 	}
 	catch(const std::exception& e)
 	{
@@ -37,10 +36,6 @@ void Renderer::draw(const SimulationState& state, const ParticleSystem& ps)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _smokeTexture);
 	_render.setInt("textures[0]", 0);
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, _magicTexture);
-	_render.setInt("textures[1]", 1);
  
 	// Draw
 	ps.particles().bindVAO();

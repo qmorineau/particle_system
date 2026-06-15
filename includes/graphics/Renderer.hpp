@@ -20,7 +20,6 @@ class Renderer
 	private:
 		Shader	_render;
 		int		_smokeTexture = -1;
-		int		_magicTexture = -1;
 };
 
 #endif

@@ -124,8 +124,3 @@ void Commands::SmokeMode::execute(Application* app) const
 {
 	app->scene().simulationState().setParticlesMode(SimulationState::ParticlesMode::Smoke);
 };
-
-void Commands::MagicMode::execute(Application* app) const
-{
-	app->scene().simulationState().setParticlesMode(SimulationState::ParticlesMode::Magic);
-};

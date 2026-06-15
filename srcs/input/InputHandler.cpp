@@ -25,7 +25,6 @@ InputHandler::InputHandler()
 	onPressedMap[IK{GLFW_KEY_C, 0}] = std::make_unique<Commands::ChangeColorMode>();
 	onPressedMap[IK{GLFW_KEY_F1, 0}] = std::make_unique<Commands::DefaultMode>();
 	onPressedMap[IK{GLFW_KEY_F2, 0}] = std::make_unique<Commands::SmokeMode>();
-	onPressedMap[IK{GLFW_KEY_F3, 0}] = std::make_unique<Commands::MagicMode>();
 
 	// Repeat Key
 	auto& whileHeldMap = _commands.whileHeld;
