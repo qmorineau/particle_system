@@ -40,7 +40,7 @@ OBJ_GLAD = $(OBJ_DIR)/glad.o
 ALL_OBJS = $(OBJ_CPP) $(OBJ_GLAD)
 DEP = $(ALL_OBJS:.o=.d)
 
-NAME = particle-system
+NAME = particle_system
 
 all: $(NAME)
 
