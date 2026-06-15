@@ -1,4 +1,4 @@
-# particle-system - GPU Particle Simulator
+# particle_system - GPU Particle Simulator
 
 ## Demo
 <video src="https://github-production-user-asset-6210df.s3.amazonaws.com/142665919/607970201-8473ecb1-2a20-4235-892b-85215d57e9d3.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20260615%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260615T141722Z&X-Amz-Expires=300&X-Amz-Signature=d8976876250aaa491eef7fb5fdbb22f3364523c44e6b37d1e58d3501c3d1a734&X-Amz-SignedHeaders=host&response-content-type=video%2Fmp4" autoplay loop muted playsinline></video>
@@ -22,7 +22,7 @@
 
 ## Overview
 
-**particle-system** is a real-time GPU-driven particle simulator built with Modern OpenGL.  
+**particle_system** is a real-time GPU-driven particle simulator built with Modern OpenGL.  
 The entire simulation runs on the GPU via **compute shaders**, no particle data ever touches the CPU at runtime.
 
 The project focuses on:
@@ -121,7 +121,7 @@ Since the program does not display help in the window, here is the complete cont
 
 ## Compiling
 
-particle-system uses **C++17**, **OpenGL**, **GLFW**, and **GLAD**.
+particle_system uses **C++17**, **OpenGL**, **GLFW**, and **GLAD**.
 
 ### Requirements
 
@@ -135,7 +135,7 @@ particle-system uses **C++17**, **OpenGL**, **GLFW**, and **GLAD**.
 
 ```bash
 make
-./particle-system
+./particle_system
 ```
 
 ---
