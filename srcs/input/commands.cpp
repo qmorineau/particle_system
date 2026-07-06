@@ -122,5 +122,6 @@ void Commands::DefaultMode::execute(Application* app) const
 };
 void Commands::SmokeMode::execute(Application* app) const
 {
-	app->scene().simulationState().setParticlesMode(SimulationState::ParticlesMode::Smoke);
+	if (app->scene().simulationState().maxParticles() < 1000000)
+		app->scene().simulationState().setParticlesMode(SimulationState::ParticlesMode::Smoke);
 };
