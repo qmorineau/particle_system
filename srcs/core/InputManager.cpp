@@ -53,7 +53,7 @@ void InputManager::scrollCallback(GLFWwindow* window, double xoffset, double yof
 // mods: bitmask if mod is press (shift, ctrl, alt, super...)
 void InputManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	(void) scancode;
+	(void) key;
     Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
     if (!app)
 		return;
@@ -62,11 +62,11 @@ void InputManager::keyCallback(GLFWwindow* window, int key, int scancode, int ac
 	ctx.setMods(mods);
 	if (action == GLFW_PRESS)
 	{
-		ctx.pressKey(key);
-		app->inputHandler().onKeyPressed(app, key);
+		ctx.pressKey(scancode);
+		app->inputHandler().onKeyPressed(app, scancode);
 	}
     else if (action == GLFW_RELEASE)
 	{
-		ctx.releaseKey(key);
+		ctx.releaseKey(scancode);
 	}
 }

@@ -18,7 +18,8 @@ GLFW_BUILD_DIR = $(GLFW_DIR)/build
 GLFW_LIB = $(GLFW_BUILD_DIR)/src/libglfw3.a
 GLFW_SUBMODULE_OK = $(GLFW_DIR)/.git
 
-LIBS = $(GLFW_LIB) -lGL -ldl -lpthread -lX11 -lXrandr -lXinerama -lXcursor -lXi
+#LIBS = $(GLFW_LIB) -lGL -ldl -lpthread -lX11 -lXrandr -lXinerama -lXcursor -lXi
+LIBS = $(GLFW_LIB) -ldl -lpthread -lX11 -lXrandr -lXinerama -lXcursor -lXi
 
 # Include Paths
 INCLUDES = -I $(INC_DIR) \

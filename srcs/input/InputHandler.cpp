@@ -5,6 +5,7 @@
 InputHandler::InputHandler()
 {
 	using IK = InputKey;
+	using SC = Scancode;
 	// Mouse Button
 	auto& mouseMap = _commands.mouse;
 	mouseMap[IK{GLFW_MOUSE_BUTTON_LEFT, 0}] = std::make_unique<Commands::DisableMouse>();
@@ -15,27 +16,27 @@ InputHandler::InputHandler()
 
 	// Key Press
 	auto& onPressedMap = _commands.onPressed;
-	onPressedMap[IK{GLFW_KEY_ESCAPE, 0}] = std::make_unique<Commands::CloseWindow>();
-	onPressedMap[IK{GLFW_KEY_TAB, 0}] = std::make_unique<Commands::EnableMouse>();
-	onPressedMap[IK{GLFW_KEY_G, 0}] = std::make_unique<Commands::ToggleGravity>();
-	onPressedMap[IK{GLFW_KEY_E, 0}] = std::make_unique<Commands::ToggleEmitter>();
-	onPressedMap[IK{GLFW_KEY_1, 0}] = std::make_unique<Commands::SetCubeShape>();
-	onPressedMap[IK{GLFW_KEY_2, 0}] = std::make_unique<Commands::SetSphereShape>();
-	onPressedMap[IK{GLFW_KEY_R, 0}] = std::make_unique<Commands::CameraReset>();
-	onPressedMap[IK{GLFW_KEY_C, 0}] = std::make_unique<Commands::ChangeColorMode>();
-	onPressedMap[IK{GLFW_KEY_F1, 0}] = std::make_unique<Commands::DefaultMode>();
-	onPressedMap[IK{GLFW_KEY_F2, 0}] = std::make_unique<Commands::SmokeMode>();
+	onPressedMap[IK{static_cast<int>(SC::KEY_ESC), 0}] = std::make_unique<Commands::CloseWindow>();
+	onPressedMap[IK{static_cast<int>(SC::KEY_TAB), 0}] = std::make_unique<Commands::EnableMouse>();
+	onPressedMap[IK{static_cast<int>(SC::KEY_G), 0}] = std::make_unique<Commands::ToggleGravity>();
+	onPressedMap[IK{static_cast<int>(SC::KEY_E), 0}] = std::make_unique<Commands::ToggleEmitter>();
+	onPressedMap[IK{static_cast<int>(SC::KEY_1), 0}] = std::make_unique<Commands::SetCubeShape>();
+	onPressedMap[IK{static_cast<int>(SC::KEY_2), 0}] = std::make_unique<Commands::SetSphereShape>();
+	onPressedMap[IK{static_cast<int>(SC::KEY_R), 0}] = std::make_unique<Commands::CameraReset>();
+	onPressedMap[IK{static_cast<int>(SC::KEY_C), 0}] = std::make_unique<Commands::ChangeColorMode>();
+	onPressedMap[IK{static_cast<int>(SC::KEY_F1), 0}] = std::make_unique<Commands::DefaultMode>();
+	onPressedMap[IK{static_cast<int>(SC::KEY_F2), 0}] = std::make_unique<Commands::SmokeMode>();
 
 	// Repeat Key
 	auto& whileHeldMap = _commands.whileHeld;
-	whileHeldMap[IK{GLFW_KEY_W, 0}] = std::make_unique<Commands::CameraForward>();
-	whileHeldMap[IK{GLFW_KEY_S, 0}] = std::make_unique<Commands::CameraBackward>();
-	whileHeldMap[IK{GLFW_KEY_A, 0}] = std::make_unique<Commands::CameraLeft>();
-	whileHeldMap[IK{GLFW_KEY_D, 0}] = std::make_unique<Commands::CameraRight>();
-	whileHeldMap[IK{GLFW_KEY_LEFT, 0}] = std::make_unique<Commands::SlowTime>();
-	whileHeldMap[IK{GLFW_KEY_RIGHT, 0}] = std::make_unique<Commands::AccelerateTime>();
-	whileHeldMap[IK{GLFW_KEY_UP, 0}] = std::make_unique<Commands::AddParticles>();
-	whileHeldMap[IK{GLFW_KEY_DOWN, 0}] = std::make_unique<Commands::RemoveParticles>();
+	whileHeldMap[IK{static_cast<int>(SC::KEY_W), 0}] = std::make_unique<Commands::CameraForward>();
+	whileHeldMap[IK{static_cast<int>(SC::KEY_S), 0}] = std::make_unique<Commands::CameraBackward>();
+	whileHeldMap[IK{static_cast<int>(SC::KEY_A), 0}] = std::make_unique<Commands::CameraLeft>();
+	whileHeldMap[IK{static_cast<int>(SC::KEY_D), 0}] = std::make_unique<Commands::CameraRight>();
+	whileHeldMap[IK{static_cast<int>(SC::KEY_LEFT), 0}] = std::make_unique<Commands::SlowTime>();
+	whileHeldMap[IK{static_cast<int>(SC::KEY_RIGHT), 0}] = std::make_unique<Commands::AccelerateTime>();
+	whileHeldMap[IK{static_cast<int>(SC::KEY_UP), 0}] = std::make_unique<Commands::AddParticles>();
+	whileHeldMap[IK{static_cast<int>(SC::KEY_DOWN), 0}] = std::make_unique<Commands::RemoveParticles>();
 }
 
 InputHandler::~InputHandler() {};
@@ -54,7 +55,7 @@ void InputHandler::onMouseEvent(Application* app, int key)
 
 void InputHandler::updateHeldKey(Application* app)
 {
-	 InputContext ctx = app->inputContext();
+	InputContext ctx = app->inputContext();
 
 	for (const auto& key : ctx.activeKeys())
 	{
