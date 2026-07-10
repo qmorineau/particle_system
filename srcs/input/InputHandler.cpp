@@ -16,27 +16,27 @@ InputHandler::InputHandler()
 
 	// Key Press
 	auto& onPressedMap = _commands.onPressed;
-	onPressedMap[IK{static_cast<int>(SC::KEY_ESC), 0}] = std::make_unique<Commands::CloseWindow>();
-	onPressedMap[IK{static_cast<int>(SC::KEY_TAB), 0}] = std::make_unique<Commands::EnableMouse>();
-	onPressedMap[IK{static_cast<int>(SC::KEY_G), 0}] = std::make_unique<Commands::ToggleGravity>();
-	onPressedMap[IK{static_cast<int>(SC::KEY_E), 0}] = std::make_unique<Commands::ToggleEmitter>();
-	onPressedMap[IK{static_cast<int>(SC::KEY_1), 0}] = std::make_unique<Commands::SetCubeShape>();
-	onPressedMap[IK{static_cast<int>(SC::KEY_2), 0}] = std::make_unique<Commands::SetSphereShape>();
-	onPressedMap[IK{static_cast<int>(SC::KEY_R), 0}] = std::make_unique<Commands::CameraReset>();
-	onPressedMap[IK{static_cast<int>(SC::KEY_C), 0}] = std::make_unique<Commands::ChangeColorMode>();
-	onPressedMap[IK{static_cast<int>(SC::KEY_F1), 0}] = std::make_unique<Commands::DefaultMode>();
-	onPressedMap[IK{static_cast<int>(SC::KEY_F2), 0}] = std::make_unique<Commands::SmokeMode>();
+	onPressedMap[IK{_scancodes.get(SC::KEY_ESC), 0}] = std::make_unique<Commands::CloseWindow>();
+	onPressedMap[IK{_scancodes.get(SC::KEY_TAB), 0}] = std::make_unique<Commands::EnableMouse>();
+	onPressedMap[IK{_scancodes.get(SC::KEY_G), 0}] = std::make_unique<Commands::ToggleGravity>();
+	onPressedMap[IK{_scancodes.get(SC::KEY_E), 0}] = std::make_unique<Commands::ToggleEmitter>();
+	onPressedMap[IK{_scancodes.get(SC::KEY_1), 0}] = std::make_unique<Commands::SetCubeShape>();
+	onPressedMap[IK{_scancodes.get(SC::KEY_2), 0}] = std::make_unique<Commands::SetSphereShape>();
+	onPressedMap[IK{_scancodes.get(SC::KEY_R), 0}] = std::make_unique<Commands::CameraReset>();
+	onPressedMap[IK{_scancodes.get(SC::KEY_C), 0}] = std::make_unique<Commands::ChangeColorMode>();
+	onPressedMap[IK{_scancodes.get(SC::KEY_F1), 0}] = std::make_unique<Commands::DefaultMode>();
+	onPressedMap[IK{_scancodes.get(SC::KEY_F2), 0}] = std::make_unique<Commands::SmokeMode>();
 
 	// Repeat Key
 	auto& whileHeldMap = _commands.whileHeld;
-	whileHeldMap[IK{static_cast<int>(SC::KEY_W), 0}] = std::make_unique<Commands::CameraForward>();
-	whileHeldMap[IK{static_cast<int>(SC::KEY_S), 0}] = std::make_unique<Commands::CameraBackward>();
-	whileHeldMap[IK{static_cast<int>(SC::KEY_A), 0}] = std::make_unique<Commands::CameraLeft>();
-	whileHeldMap[IK{static_cast<int>(SC::KEY_D), 0}] = std::make_unique<Commands::CameraRight>();
-	whileHeldMap[IK{static_cast<int>(SC::KEY_LEFT), 0}] = std::make_unique<Commands::SlowTime>();
-	whileHeldMap[IK{static_cast<int>(SC::KEY_RIGHT), 0}] = std::make_unique<Commands::AccelerateTime>();
-	whileHeldMap[IK{static_cast<int>(SC::KEY_UP), 0}] = std::make_unique<Commands::AddParticles>();
-	whileHeldMap[IK{static_cast<int>(SC::KEY_DOWN), 0}] = std::make_unique<Commands::RemoveParticles>();
+	whileHeldMap[IK{_scancodes.get(SC::KEY_W), 0}] = std::make_unique<Commands::CameraForward>();
+	whileHeldMap[IK{_scancodes.get(SC::KEY_S), 0}] = std::make_unique<Commands::CameraBackward>();
+	whileHeldMap[IK{_scancodes.get(SC::KEY_A), 0}] = std::make_unique<Commands::CameraLeft>();
+	whileHeldMap[IK{_scancodes.get(SC::KEY_D), 0}] = std::make_unique<Commands::CameraRight>();
+	whileHeldMap[IK{_scancodes.get(SC::KEY_LEFT), 0}] = std::make_unique<Commands::SlowTime>();
+	whileHeldMap[IK{_scancodes.get(SC::KEY_RIGHT), 0}] = std::make_unique<Commands::AccelerateTime>();
+	whileHeldMap[IK{_scancodes.get(SC::KEY_UP), 0}] = std::make_unique<Commands::AddParticles>();
+	whileHeldMap[IK{_scancodes.get(SC::KEY_DOWN), 0}] = std::make_unique<Commands::RemoveParticles>();
 }
 
 InputHandler::~InputHandler() {};
