@@ -83,6 +83,6 @@ $(GLFW_LIB): $(GLFW_SUBMODULE_OK)
 test: all
 	./$(NAME) 10000
 
-.PHONY: all re clean fclean submodules test
+.PHONY: all re clean fclean test
 
 -include $(DEP)
